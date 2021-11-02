@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tidyverse cont’d</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Data Visualization for Social Good   CorrelAid Switzerland                  " />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding/plotly.js"></script>
+    <script src="libs/typedarray/typedarray.min.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="baselrbootcamp.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Tidyverse cont’d
+### Data Visualization for Social Good<br> <a href='https://correlaid.org/correlaid-x/switzerland/'> CorrelAid Switzerland </a> <br> <a href='https://correlaidswitzerland.github.io/DataViz4Good/'> <i class='fas fa-clock' style='font-size:.9em;'></i> </a>  <a href='https://correlaid.org/correlaid-x/switzerland/'> <i class='fas fa-home' style='font-size:.9em;' ></i> </a>  <a href='switzerland@correlaid.org'> <i class='fas fa-envelope' style='font-size: .9em;'></i> </a>  <a href='https://www.linkedin.com/company/correlaidswiss/'> <i class='fab fa-linkedin' style='font-size: .9em;'></i> </a>
+### February 2021
+
+---
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+  &lt;span style="text-align:center"&gt;
+    &lt;span&gt; 
+      &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/by-sa.png" height=14 style="vertical-align: middle"/&gt;
+    &lt;/span&gt;
+    &lt;a href="https://therbootcamp.github.io/"&gt;
+      &lt;span style="padding-left:82px"&gt; 
+        &lt;font color="#7E7E7E"&gt;
+          https://correlaid.org/correlaid-x/switzerland/
+        &lt;/font&gt;
+      &lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a href="https://correlaid.org/correlaid-x/switzerland/"&gt;
+      &lt;font color="#7E7E7E"&gt;
+      Data Visualization for Social Good | February 2021
+      &lt;/font&gt;
+    &lt;/a&gt;
+    &lt;/span&gt;
+  &lt;/div&gt; 
+
+---
+
+
+
+
+# The R &lt;mono&gt;tidyverse&lt;/mono&gt; can do a lot more
+
+.pull-left5[
+
+&lt;font size = 6&gt;
+
+1. `tidyverse` core&lt;br&gt;
+2. `tidyverse` extended&lt;br&gt;
+
+&lt;/font&gt;
+
+
+]
+
+.pull-right5[
+&lt;p align="center"&gt;&lt;img border="0" alt="W3Schools" src="https://www.oreilly.com/library/view/the-art-of/9781593273842/httpatomoreillycomsourcenostarchimages915868.png.jpg" width="400px"&gt;&lt;/p&gt;
+]
+
+
+---
+
+.pull-left3[
+
+# &lt;mono&gt;tidyverse&lt;/mono&gt; core
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;The tidyverse is...&lt;/span&gt;&lt;/li&gt;&lt;br&gt;
+  &lt;ul class="level"&gt;
+    &lt;li&gt;&lt;span&gt;A collection of user-friendly &lt;high&gt;packages&lt;/high&gt; for analyzing &lt;high&gt;tidy data&lt;/high&gt;&lt;/span&gt;&lt;/li&gt;&lt;br&gt;
+    &lt;li&gt;&lt;span&gt;An &lt;high&gt;ecosystem&lt;/high&gt; for analytics and data science with common design principles&lt;/span&gt;&lt;/li&gt;&lt;br&gt;
+    &lt;li&gt;&lt;span&gt;A &lt;high&gt;dialect&lt;/high&gt; of the R language&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+]
+
+
+.pull-right6[
+&lt;br&gt;
+&lt;p align="left"&gt;
+  &lt;img src="image/tidyverse.png" style="height:540px"&gt;
+&lt;/p&gt;
+
+]
+
+---
+
+.pull-left2[
+
+# `tidyverse` extended
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;The tidyverse is...an &lt;high&gt;ecosystem&lt;/high&gt; for analytics and data science with common design principles&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+]
+
+.pull-right65[
+
+&lt;br&gt;&lt;br&gt;
+
+&lt;p align="left"&gt;
+  &lt;img src="image/hexwall.png" style="height:480px"&gt;
+&lt;/p&gt;
+
+]
+
+
+---
+
+# &lt;img src="https://github.com/thomasp85/gganimate/raw/master/man/figures/logo.png" style="height:48px"&gt; &lt;mono&gt;gganimate&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for animations&lt;/font&gt;
+
+.pull-left45[
+
+
+```r
+basel %&gt;% 
+  ggplot(aes(x = year, col = quarter)) + 
+  geom_point(aes(y = wealth_mean)) + 
+  geom_line(aes(y = wealth_mean)) + 
+  guides(col = FALSE) +
+  theme_minimal() + 
+  
+  # add animation
+  transition_reveal(year)
+```
+
+]
+
+.pull-right45[
+
+&lt;p align="center"&gt;
+  &lt;img src="image/lines_anim.gif" style="height:420px"&gt;
+&lt;/p&gt;
+
+
+]
+
+---
+
+# &lt;img src="https://github.com/thomasp85/gganimate/raw/master/man/figures/logo.png" style="height:48px"&gt; &lt;mono&gt;gganimate&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for animations&lt;/font&gt;
+
+.pull-left5[
+
+
+```r
+plot = basel_map %&gt;% 
+  
+  # original code
+  left_join(basel, 
+            by = c('TYPE' = 'quarter')) %&gt;% 
+  ggplot(aes(fill = wealth_mean)) + 
+  geom_sf(col = 'white') + 
+  guides(fill = FALSE) + 
+  theme_void() +
+  
+  # add animation
+  ggtitle("{closest_state}") +
+  theme(plot.title = element_text(
+    hjust = 0.5,size=20)) +
+  transition_states(year)
+```
+
+]
+
+.pull-right45[
+
+&lt;p align="center"&gt;
+  &lt;img src="image/map_anim.gif" style="height:420px"&gt;
+&lt;/p&gt;
+
+
+]
+
+---
+
+# &lt;img src="https://avatars.githubusercontent.com/u/5997976?s=200&amp;v=4" style="height:48px"&gt; &lt;mono&gt;plotly&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for interactive graphics&lt;/font&gt;
+
+.pull-left5[
+
+
+```r
+# original plot
+plot &lt;- basel_map %&gt;% 
+  left_join(basel, 
+            by = c('TYPE' = 'quarter')) %&gt;% 
+  ggplot(aes(x = year, col = TYPE)) + 
+  geom_point(aes(y = wealth_mean)) + 
+  geom_line(aes(y = wealth_mean)) + 
+  guides(col = FALSE) +
+  theme_minimal() 
+  
+# plotlify
+ggplotly(plot)
+```
+
+]
+
+.pull-right45[
+
+<div id="htmlwidget-a3a4b23c5870e97daebd" style="width:504px;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a3a4b23c5870e97daebd">{"x":{"data":[{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[1014720,1119065,1029143,515646,657556,1043716,1032455,799849,1011185,949972,766231,887314,1011559,1018173,1015165,1042452,1060205],"text":["wealth_mean: 1014720<br />year: 2001<br />TYPE: Altstadt Grossbasel","wealth_mean: 1119065<br />year: 2002<br />TYPE: Altstadt Grossbasel","wealth_mean: 1029143<br />year: 2003<br />TYPE: Altstadt Grossbasel","wealth_mean:  515646<br />year: 2004<br />TYPE: Altstadt Grossbasel","wealth_mean:  657556<br />year: 2005<br />TYPE: Altstadt Grossbasel","wealth_mean: 1043716<br />year: 2006<br />TYPE: Altstadt Grossbasel","wealth_mean: 1032455<br />year: 2007<br />TYPE: Altstadt Grossbasel","wealth_mean:  799849<br />year: 2008<br />TYPE: Altstadt Grossbasel","wealth_mean: 1011185<br />year: 2009<br />TYPE: Altstadt Grossbasel","wealth_mean:  949972<br />year: 2010<br />TYPE: Altstadt Grossbasel","wealth_mean:  766231<br />year: 2011<br />TYPE: Altstadt Grossbasel","wealth_mean:  887314<br />year: 2012<br />TYPE: Altstadt Grossbasel","wealth_mean: 1011559<br />year: 2013<br />TYPE: Altstadt Grossbasel","wealth_mean: 1018173<br />year: 2014<br />TYPE: Altstadt Grossbasel","wealth_mean: 1015165<br />year: 2015<br />TYPE: Altstadt Grossbasel","wealth_mean: 1042452<br />year: 2016<br />TYPE: Altstadt Grossbasel","wealth_mean: 1060205<br />year: 2017<br />TYPE: Altstadt Grossbasel"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Altstadt Grossbasel","legendgroup":"Altstadt Grossbasel","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[222560,220470,229262,213067,252148,271328,231373,219244,232753,229873,193738,217040,236977,244073,249077,282293,286780],"text":["wealth_mean:  222560<br />year: 2001<br />TYPE: Altstadt Kleinbasel","wealth_mean:  220470<br />year: 2002<br />TYPE: Altstadt Kleinbasel","wealth_mean:  229262<br />year: 2003<br />TYPE: Altstadt Kleinbasel","wealth_mean:  213067<br />year: 2004<br />TYPE: Altstadt Kleinbasel","wealth_mean:  252148<br />year: 2005<br />TYPE: Altstadt Kleinbasel","wealth_mean:  271328<br />year: 2006<br />TYPE: Altstadt Kleinbasel","wealth_mean:  231373<br />year: 2007<br />TYPE: Altstadt Kleinbasel","wealth_mean:  219244<br />year: 2008<br />TYPE: Altstadt Kleinbasel","wealth_mean:  232753<br />year: 2009<br />TYPE: Altstadt Kleinbasel","wealth_mean:  229873<br />year: 2010<br />TYPE: Altstadt Kleinbasel","wealth_mean:  193738<br />year: 2011<br />TYPE: Altstadt Kleinbasel","wealth_mean:  217040<br />year: 2012<br />TYPE: Altstadt Kleinbasel","wealth_mean:  236977<br />year: 2013<br />TYPE: Altstadt Kleinbasel","wealth_mean:  244073<br />year: 2014<br />TYPE: Altstadt Kleinbasel","wealth_mean:  249077<br />year: 2015<br />TYPE: Altstadt Kleinbasel","wealth_mean:  282293<br />year: 2016<br />TYPE: Altstadt Kleinbasel","wealth_mean:  286780<br />year: 2017<br />TYPE: Altstadt Kleinbasel"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(235,131,53,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(235,131,53,1)"}},"hoveron":"points","name":"Altstadt Kleinbasel","legendgroup":"Altstadt Kleinbasel","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(235,131,53,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[300878,304331,318314,298493,342044,377270,366048,345912,394083,389314,474358,488275,558814,615395,435416,448259,476747],"text":["wealth_mean:  300878<br />year: 2001<br />TYPE: Am Ring","wealth_mean:  304331<br />year: 2002<br />TYPE: Am Ring","wealth_mean:  318314<br />year: 2003<br />TYPE: Am Ring","wealth_mean:  298493<br />year: 2004<br />TYPE: Am Ring","wealth_mean:  342044<br />year: 2005<br />TYPE: Am Ring","wealth_mean:  377270<br />year: 2006<br />TYPE: Am Ring","wealth_mean:  366048<br />year: 2007<br />TYPE: Am Ring","wealth_mean:  345912<br />year: 2008<br />TYPE: Am Ring","wealth_mean:  394083<br />year: 2009<br />TYPE: Am Ring","wealth_mean:  389314<br />year: 2010<br />TYPE: Am Ring","wealth_mean:  474358<br />year: 2011<br />TYPE: Am Ring","wealth_mean:  488275<br />year: 2012<br />TYPE: Am Ring","wealth_mean:  558814<br />year: 2013<br />TYPE: Am Ring","wealth_mean:  615395<br />year: 2014<br />TYPE: Am Ring","wealth_mean:  435416<br />year: 2015<br />TYPE: Am Ring","wealth_mean:  448259<br />year: 2016<br />TYPE: Am Ring","wealth_mean:  476747<br />year: 2017<br />TYPE: Am Ring"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(218,143,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(218,143,0,1)"}},"hoveron":"points","name":"Am Ring","legendgroup":"Am Ring","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(218,143,0,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[346088,341300,349454,339879,385637,376478,369065,323943,347055,372023,342308,371076,385400,410582,413563,464497,491478],"text":["wealth_mean:  346088<br />year: 2001<br />TYPE: Bachletten","wealth_mean:  341300<br />year: 2002<br />TYPE: Bachletten","wealth_mean:  349454<br />year: 2003<br />TYPE: Bachletten","wealth_mean:  339879<br />year: 2004<br />TYPE: Bachletten","wealth_mean:  385637<br />year: 2005<br />TYPE: Bachletten","wealth_mean:  376478<br />year: 2006<br />TYPE: Bachletten","wealth_mean:  369065<br />year: 2007<br />TYPE: Bachletten","wealth_mean:  323943<br />year: 2008<br />TYPE: Bachletten","wealth_mean:  347055<br />year: 2009<br />TYPE: Bachletten","wealth_mean:  372023<br />year: 2010<br />TYPE: Bachletten","wealth_mean:  342308<br />year: 2011<br />TYPE: Bachletten","wealth_mean:  371076<br />year: 2012<br />TYPE: Bachletten","wealth_mean:  385400<br />year: 2013<br />TYPE: Bachletten","wealth_mean:  410582<br />year: 2014<br />TYPE: Bachletten","wealth_mean:  413563<br />year: 2015<br />TYPE: Bachletten","wealth_mean:  464497<br />year: 2016<br />TYPE: Bachletten","wealth_mean:  491478<br />year: 2017<br />TYPE: Bachletten"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(196,154,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(196,154,0,1)"}},"hoveron":"points","name":"Bachletten","legendgroup":"Bachletten","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(196,154,0,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[537289,527151,486236,546557,610226,627310,618129,555614,792733,828771,590867,603179,640035,727259,2359934,2216243,2379097],"text":["wealth_mean:  537289<br />year: 2001<br />TYPE: Bettingen","wealth_mean:  527151<br />year: 2002<br />TYPE: Bettingen","wealth_mean:  486236<br />year: 2003<br />TYPE: Bettingen","wealth_mean:  546557<br />year: 2004<br />TYPE: Bettingen","wealth_mean:  610226<br />year: 2005<br />TYPE: Bettingen","wealth_mean:  627310<br />year: 2006<br />TYPE: Bettingen","wealth_mean:  618129<br />year: 2007<br />TYPE: Bettingen","wealth_mean:  555614<br />year: 2008<br />TYPE: Bettingen","wealth_mean:  792733<br />year: 2009<br />TYPE: Bettingen","wealth_mean:  828771<br />year: 2010<br />TYPE: Bettingen","wealth_mean:  590867<br />year: 2011<br />TYPE: Bettingen","wealth_mean:  603179<br />year: 2012<br />TYPE: Bettingen","wealth_mean:  640035<br />year: 2013<br />TYPE: Bettingen","wealth_mean:  727259<br />year: 2014<br />TYPE: Bettingen","wealth_mean: 2359934<br />year: 2015<br />TYPE: Bettingen","wealth_mean: 2216243<br />year: 2016<br />TYPE: Bettingen","wealth_mean: 2379097<br />year: 2017<br />TYPE: Bettingen"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(169,164,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(169,164,0,1)"}},"hoveron":"points","name":"Bettingen","legendgroup":"Bettingen","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(169,164,0,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[105198,109106,116849,113590,122623,124926,118860,114075,118098,113890,126461,128565,133011,132928,140160,149641,153404],"text":["wealth_mean:  105198<br />year: 2001<br />TYPE: Breite","wealth_mean:  109106<br />year: 2002<br />TYPE: Breite","wealth_mean:  116849<br />year: 2003<br />TYPE: Breite","wealth_mean:  113590<br />year: 2004<br />TYPE: Breite","wealth_mean:  122623<br />year: 2005<br />TYPE: Breite","wealth_mean:  124926<br />year: 2006<br />TYPE: Breite","wealth_mean:  118860<br />year: 2007<br />TYPE: Breite","wealth_mean:  114075<br />year: 2008<br />TYPE: Breite","wealth_mean:  118098<br />year: 2009<br />TYPE: Breite","wealth_mean:  113890<br />year: 2010<br />TYPE: Breite","wealth_mean:  126461<br />year: 2011<br />TYPE: Breite","wealth_mean:  128565<br />year: 2012<br />TYPE: Breite","wealth_mean:  133011<br />year: 2013<br />TYPE: Breite","wealth_mean:  132928<br />year: 2014<br />TYPE: Breite","wealth_mean:  140160<br />year: 2015<br />TYPE: Breite","wealth_mean:  149641<br />year: 2016<br />TYPE: Breite","wealth_mean:  153404<br />year: 2017<br />TYPE: Breite"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(134,172,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(134,172,0,1)"}},"hoveron":"points","name":"Breite","legendgroup":"Breite","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(134,172,0,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[982401,1057536,1137819,1122169,1514325,1926780,2113170,2272007,2345079,1977704,1504220,2166897,2655147,2868374,2519406,2549938,1273808],"text":["wealth_mean:  982401<br />year: 2001<br />TYPE: Bruderholz","wealth_mean: 1057536<br />year: 2002<br />TYPE: Bruderholz","wealth_mean: 1137819<br />year: 2003<br />TYPE: Bruderholz","wealth_mean: 1122169<br />year: 2004<br />TYPE: Bruderholz","wealth_mean: 1514325<br />year: 2005<br />TYPE: Bruderholz","wealth_mean: 1926780<br />year: 2006<br />TYPE: Bruderholz","wealth_mean: 2113170<br />year: 2007<br />TYPE: Bruderholz","wealth_mean: 2272007<br />year: 2008<br />TYPE: Bruderholz","wealth_mean: 2345079<br />year: 2009<br />TYPE: Bruderholz","wealth_mean: 1977704<br />year: 2010<br />TYPE: Bruderholz","wealth_mean: 1504220<br />year: 2011<br />TYPE: Bruderholz","wealth_mean: 2166897<br />year: 2012<br />TYPE: Bruderholz","wealth_mean: 2655147<br />year: 2013<br />TYPE: Bruderholz","wealth_mean: 2868374<br />year: 2014<br />TYPE: Bruderholz","wealth_mean: 2519406<br />year: 2015<br />TYPE: Bruderholz","wealth_mean: 2549938<br />year: 2016<br />TYPE: Bruderholz","wealth_mean: 1273808<br />year: 2017<br />TYPE: Bruderholz"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(83,180,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(83,180,0,1)"}},"hoveron":"points","name":"Bruderholz","legendgroup":"Bruderholz","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(83,180,0,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[78995,81107,82602,79370,88637,88418,91592,91442,96201,99397,104734,112171,117348,121196,130164,135518,139220],"text":["wealth_mean:   78995<br />year: 2001<br />TYPE: Clara","wealth_mean:   81107<br />year: 2002<br />TYPE: Clara","wealth_mean:   82602<br />year: 2003<br />TYPE: Clara","wealth_mean:   79370<br />year: 2004<br />TYPE: Clara","wealth_mean:   88637<br />year: 2005<br />TYPE: Clara","wealth_mean:   88418<br />year: 2006<br />TYPE: Clara","wealth_mean:   91592<br />year: 2007<br />TYPE: Clara","wealth_mean:   91442<br />year: 2008<br />TYPE: Clara","wealth_mean:   96201<br />year: 2009<br />TYPE: Clara","wealth_mean:   99397<br />year: 2010<br />TYPE: Clara","wealth_mean:  104734<br />year: 2011<br />TYPE: Clara","wealth_mean:  112171<br />year: 2012<br />TYPE: Clara","wealth_mean:  117348<br />year: 2013<br />TYPE: Clara","wealth_mean:  121196<br />year: 2014<br />TYPE: Clara","wealth_mean:  130164<br />year: 2015<br />TYPE: Clara","wealth_mean:  135518<br />year: 2016<br />TYPE: Clara","wealth_mean:  139220<br />year: 2017<br />TYPE: Clara"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)"}},"hoveron":"points","name":"Clara","legendgroup":"Clara","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[324687,375798,426950,477239,660155,719158,760702,679150,734089,657785,664810,679908,725713,746185,229963,704932,698434],"text":["wealth_mean:  324687<br />year: 2001<br />TYPE: Gotthelf","wealth_mean:  375798<br />year: 2002<br />TYPE: Gotthelf","wealth_mean:  426950<br />year: 2003<br />TYPE: Gotthelf","wealth_mean:  477239<br />year: 2004<br />TYPE: Gotthelf","wealth_mean:  660155<br />year: 2005<br />TYPE: Gotthelf","wealth_mean:  719158<br />year: 2006<br />TYPE: Gotthelf","wealth_mean:  760702<br />year: 2007<br />TYPE: Gotthelf","wealth_mean:  679150<br />year: 2008<br />TYPE: Gotthelf","wealth_mean:  734089<br />year: 2009<br />TYPE: Gotthelf","wealth_mean:  657785<br />year: 2010<br />TYPE: Gotthelf","wealth_mean:  664810<br />year: 2011<br />TYPE: Gotthelf","wealth_mean:  679908<br />year: 2012<br />TYPE: Gotthelf","wealth_mean:  725713<br />year: 2013<br />TYPE: Gotthelf","wealth_mean:  746185<br />year: 2014<br />TYPE: Gotthelf","wealth_mean:  229963<br />year: 2015<br />TYPE: Gotthelf","wealth_mean:  704932<br />year: 2016<br />TYPE: Gotthelf","wealth_mean:  698434<br />year: 2017<br />TYPE: Gotthelf"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,190,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,190,109,1)"}},"hoveron":"points","name":"Gotthelf","legendgroup":"Gotthelf","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,190,109,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[92099,95544,91286,85258,97584,97926,100436,95313,105618,104176,114061,115575,128106,139876,145346,147613,161585],"text":["wealth_mean:   92099<br />year: 2001<br />TYPE: Gundeldingen","wealth_mean:   95544<br />year: 2002<br />TYPE: Gundeldingen","wealth_mean:   91286<br />year: 2003<br />TYPE: Gundeldingen","wealth_mean:   85258<br />year: 2004<br />TYPE: Gundeldingen","wealth_mean:   97584<br />year: 2005<br />TYPE: Gundeldingen","wealth_mean:   97926<br />year: 2006<br />TYPE: Gundeldingen","wealth_mean:  100436<br />year: 2007<br />TYPE: Gundeldingen","wealth_mean:   95313<br />year: 2008<br />TYPE: Gundeldingen","wealth_mean:  105618<br />year: 2009<br />TYPE: Gundeldingen","wealth_mean:  104176<br />year: 2010<br />TYPE: Gundeldingen","wealth_mean:  114061<br />year: 2011<br />TYPE: Gundeldingen","wealth_mean:  115575<br />year: 2012<br />TYPE: Gundeldingen","wealth_mean:  128106<br />year: 2013<br />TYPE: Gundeldingen","wealth_mean:  139876<br />year: 2014<br />TYPE: Gundeldingen","wealth_mean:  145346<br />year: 2015<br />TYPE: Gundeldingen","wealth_mean:  147613<br />year: 2016<br />TYPE: Gundeldingen","wealth_mean:  161585<br />year: 2017<br />TYPE: Gundeldingen"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,192,148,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,192,148,1)"}},"hoveron":"points","name":"Gundeldingen","legendgroup":"Gundeldingen","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,192,148,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[147360,149692,148635,146748,166275,163464,166614,152920,164208,166139,164987,174037,176675,186178,186072,195472,184461],"text":["wealth_mean:  147360<br />year: 2001<br />TYPE: Hirzbrunnen","wealth_mean:  149692<br />year: 2002<br />TYPE: Hirzbrunnen","wealth_mean:  148635<br />year: 2003<br />TYPE: Hirzbrunnen","wealth_mean:  146748<br />year: 2004<br />TYPE: Hirzbrunnen","wealth_mean:  166275<br />year: 2005<br />TYPE: Hirzbrunnen","wealth_mean:  163464<br />year: 2006<br />TYPE: Hirzbrunnen","wealth_mean:  166614<br />year: 2007<br />TYPE: Hirzbrunnen","wealth_mean:  152920<br />year: 2008<br />TYPE: Hirzbrunnen","wealth_mean:  164208<br />year: 2009<br />TYPE: Hirzbrunnen","wealth_mean:  166139<br />year: 2010<br />TYPE: Hirzbrunnen","wealth_mean:  164987<br />year: 2011<br />TYPE: Hirzbrunnen","wealth_mean:  174037<br />year: 2012<br />TYPE: Hirzbrunnen","wealth_mean:  176675<br />year: 2013<br />TYPE: Hirzbrunnen","wealth_mean:  186178<br />year: 2014<br />TYPE: Hirzbrunnen","wealth_mean:  186072<br />year: 2015<br />TYPE: Hirzbrunnen","wealth_mean:  195472<br />year: 2016<br />TYPE: Hirzbrunnen","wealth_mean:  184461<br />year: 2017<br />TYPE: Hirzbrunnen"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,192,181,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,192,181,1)"}},"hoveron":"points","name":"Hirzbrunnen","legendgroup":"Hirzbrunnen","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,192,181,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[99290,105572,102769,96706,104439,100717,102338,99426,104990,104716,113005,119346,120287,122530,130113,127693,137154],"text":["wealth_mean:   99290<br />year: 2001<br />TYPE: Iselin","wealth_mean:  105572<br />year: 2002<br />TYPE: Iselin","wealth_mean:  102769<br />year: 2003<br />TYPE: Iselin","wealth_mean:   96706<br />year: 2004<br />TYPE: Iselin","wealth_mean:  104439<br />year: 2005<br />TYPE: Iselin","wealth_mean:  100717<br />year: 2006<br />TYPE: Iselin","wealth_mean:  102338<br />year: 2007<br />TYPE: Iselin","wealth_mean:   99426<br />year: 2008<br />TYPE: Iselin","wealth_mean:  104990<br />year: 2009<br />TYPE: Iselin","wealth_mean:  104716<br />year: 2010<br />TYPE: Iselin","wealth_mean:  113005<br />year: 2011<br />TYPE: Iselin","wealth_mean:  119346<br />year: 2012<br />TYPE: Iselin","wealth_mean:  120287<br />year: 2013<br />TYPE: Iselin","wealth_mean:  122530<br />year: 2014<br />TYPE: Iselin","wealth_mean:  130113<br />year: 2015<br />TYPE: Iselin","wealth_mean:  127693<br />year: 2016<br />TYPE: Iselin","wealth_mean:  137154<br />year: 2017<br />TYPE: Iselin"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,189,210,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,189,210,1)"}},"hoveron":"points","name":"Iselin","legendgroup":"Iselin","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,189,210,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[58208,61289,60320,54747,60874,56156,54963,58287,56278,59853,61015,64542,67385,63484,68636,71011,76802],"text":["wealth_mean:   58208<br />year: 2001<br />TYPE: Kleinhüningen","wealth_mean:   61289<br />year: 2002<br />TYPE: Kleinhüningen","wealth_mean:   60320<br />year: 2003<br />TYPE: Kleinhüningen","wealth_mean:   54747<br />year: 2004<br />TYPE: Kleinhüningen","wealth_mean:   60874<br />year: 2005<br />TYPE: Kleinhüningen","wealth_mean:   56156<br />year: 2006<br />TYPE: Kleinhüningen","wealth_mean:   54963<br />year: 2007<br />TYPE: Kleinhüningen","wealth_mean:   58287<br />year: 2008<br />TYPE: Kleinhüningen","wealth_mean:   56278<br />year: 2009<br />TYPE: Kleinhüningen","wealth_mean:   59853<br />year: 2010<br />TYPE: Kleinhüningen","wealth_mean:   61015<br />year: 2011<br />TYPE: Kleinhüningen","wealth_mean:   64542<br />year: 2012<br />TYPE: Kleinhüningen","wealth_mean:   67385<br />year: 2013<br />TYPE: Kleinhüningen","wealth_mean:   63484<br />year: 2014<br />TYPE: Kleinhüningen","wealth_mean:   68636<br />year: 2015<br />TYPE: Kleinhüningen","wealth_mean:   71011<br />year: 2016<br />TYPE: Kleinhüningen","wealth_mean:   76802<br />year: 2017<br />TYPE: Kleinhüningen"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,182,235,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,182,235,1)"}},"hoveron":"points","name":"Kleinhüningen","legendgroup":"Kleinhüningen","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,182,235,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[54040,55939,53653,49607,52486,52083,50527,49418,52694,54235,54427,54090,53921,57717,59248,60372,66050],"text":["wealth_mean:   54040<br />year: 2001<br />TYPE: Klybeck","wealth_mean:   55939<br />year: 2002<br />TYPE: Klybeck","wealth_mean:   53653<br />year: 2003<br />TYPE: Klybeck","wealth_mean:   49607<br />year: 2004<br />TYPE: Klybeck","wealth_mean:   52486<br />year: 2005<br />TYPE: Klybeck","wealth_mean:   52083<br />year: 2006<br />TYPE: Klybeck","wealth_mean:   50527<br />year: 2007<br />TYPE: Klybeck","wealth_mean:   49418<br />year: 2008<br />TYPE: Klybeck","wealth_mean:   52694<br />year: 2009<br />TYPE: Klybeck","wealth_mean:   54235<br />year: 2010<br />TYPE: Klybeck","wealth_mean:   54427<br />year: 2011<br />TYPE: Klybeck","wealth_mean:   54090<br />year: 2012<br />TYPE: Klybeck","wealth_mean:   53921<br />year: 2013<br />TYPE: Klybeck","wealth_mean:   57717<br />year: 2014<br />TYPE: Klybeck","wealth_mean:   59248<br />year: 2015<br />TYPE: Klybeck","wealth_mean:   60372<br />year: 2016<br />TYPE: Klybeck","wealth_mean:   66050<br />year: 2017<br />TYPE: Klybeck"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,171,253,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,171,253,1)"}},"hoveron":"points","name":"Klybeck","legendgroup":"Klybeck","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,171,253,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[87623,91361,90921,87854,92556,92244,95459,90644,99566,100128,104610,112177,116354,123557,128623,143892,148639],"text":["wealth_mean:   87623<br />year: 2001<br />TYPE: Matthäus","wealth_mean:   91361<br />year: 2002<br />TYPE: Matthäus","wealth_mean:   90921<br />year: 2003<br />TYPE: Matthäus","wealth_mean:   87854<br />year: 2004<br />TYPE: Matthäus","wealth_mean:   92556<br />year: 2005<br />TYPE: Matthäus","wealth_mean:   92244<br />year: 2006<br />TYPE: Matthäus","wealth_mean:   95459<br />year: 2007<br />TYPE: Matthäus","wealth_mean:   90644<br />year: 2008<br />TYPE: Matthäus","wealth_mean:   99566<br />year: 2009<br />TYPE: Matthäus","wealth_mean:  100128<br />year: 2010<br />TYPE: Matthäus","wealth_mean:  104610<br />year: 2011<br />TYPE: Matthäus","wealth_mean:  112177<br />year: 2012<br />TYPE: Matthäus","wealth_mean:  116354<br />year: 2013<br />TYPE: Matthäus","wealth_mean:  123557<br />year: 2014<br />TYPE: Matthäus","wealth_mean:  128623<br />year: 2015<br />TYPE: Matthäus","wealth_mean:  143892<br />year: 2016<br />TYPE: Matthäus","wealth_mean:  148639<br />year: 2017<br />TYPE: Matthäus"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)"}},"hoveron":"points","name":"Matthäus","legendgroup":"Matthäus","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[539052,532211,519560,507726,726599,613220,608334,490860,559401,550778,591297,526274,652857,670362,642705,810996,841152],"text":["wealth_mean:  539052<br />year: 2001<br />TYPE: Riehen","wealth_mean:  532211<br />year: 2002<br />TYPE: Riehen","wealth_mean:  519560<br />year: 2003<br />TYPE: Riehen","wealth_mean:  507726<br />year: 2004<br />TYPE: Riehen","wealth_mean:  726599<br />year: 2005<br />TYPE: Riehen","wealth_mean:  613220<br />year: 2006<br />TYPE: Riehen","wealth_mean:  608334<br />year: 2007<br />TYPE: Riehen","wealth_mean:  490860<br />year: 2008<br />TYPE: Riehen","wealth_mean:  559401<br />year: 2009<br />TYPE: Riehen","wealth_mean:  550778<br />year: 2010<br />TYPE: Riehen","wealth_mean:  591297<br />year: 2011<br />TYPE: Riehen","wealth_mean:  526274<br />year: 2012<br />TYPE: Riehen","wealth_mean:  652857<br />year: 2013<br />TYPE: Riehen","wealth_mean:  670362<br />year: 2014<br />TYPE: Riehen","wealth_mean:  642705<br />year: 2015<br />TYPE: Riehen","wealth_mean:  810996<br />year: 2016<br />TYPE: Riehen","wealth_mean:  841152<br />year: 2017<br />TYPE: Riehen"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(165,138,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(165,138,255,1)"}},"hoveron":"points","name":"Riehen","legendgroup":"Riehen","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(165,138,255,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[58042,61020,57722,48182,54923,52396,46130,48532,54992,56163,60887,69545,73207,72774,76964,92875,87336],"text":["wealth_mean:   58042<br />year: 2001<br />TYPE: Rosental","wealth_mean:   61020<br />year: 2002<br />TYPE: Rosental","wealth_mean:   57722<br />year: 2003<br />TYPE: Rosental","wealth_mean:   48182<br />year: 2004<br />TYPE: Rosental","wealth_mean:   54923<br />year: 2005<br />TYPE: Rosental","wealth_mean:   52396<br />year: 2006<br />TYPE: Rosental","wealth_mean:   46130<br />year: 2007<br />TYPE: Rosental","wealth_mean:   48532<br />year: 2008<br />TYPE: Rosental","wealth_mean:   54992<br />year: 2009<br />TYPE: Rosental","wealth_mean:   56163<br />year: 2010<br />TYPE: Rosental","wealth_mean:   60887<br />year: 2011<br />TYPE: Rosental","wealth_mean:   69545<br />year: 2012<br />TYPE: Rosental","wealth_mean:   73207<br />year: 2013<br />TYPE: Rosental","wealth_mean:   72774<br />year: 2014<br />TYPE: Rosental","wealth_mean:   76964<br />year: 2015<br />TYPE: Rosental","wealth_mean:   92875<br />year: 2016<br />TYPE: Rosental","wealth_mean:   87336<br />year: 2017<br />TYPE: Rosental"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(208,120,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(208,120,255,1)"}},"hoveron":"points","name":"Rosental","legendgroup":"Rosental","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(208,120,255,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[778475,782004,741616,765489,850281,862648,862577,707868,761393,749056,731164,814016,817904,920256,1033797,1018634,1056515],"text":["wealth_mean:  778475<br />year: 2001<br />TYPE: St. Alban","wealth_mean:  782004<br />year: 2002<br />TYPE: St. Alban","wealth_mean:  741616<br />year: 2003<br />TYPE: St. Alban","wealth_mean:  765489<br />year: 2004<br />TYPE: St. Alban","wealth_mean:  850281<br />year: 2005<br />TYPE: St. Alban","wealth_mean:  862648<br />year: 2006<br />TYPE: St. Alban","wealth_mean:  862577<br />year: 2007<br />TYPE: St. Alban","wealth_mean:  707868<br />year: 2008<br />TYPE: St. Alban","wealth_mean:  761393<br />year: 2009<br />TYPE: St. Alban","wealth_mean:  749056<br />year: 2010<br />TYPE: St. Alban","wealth_mean:  731164<br />year: 2011<br />TYPE: St. Alban","wealth_mean:  814016<br />year: 2012<br />TYPE: St. Alban","wealth_mean:  817904<br />year: 2013<br />TYPE: St. Alban","wealth_mean:  920256<br />year: 2014<br />TYPE: St. Alban","wealth_mean: 1033797<br />year: 2015<br />TYPE: St. Alban","wealth_mean: 1018634<br />year: 2016<br />TYPE: St. Alban","wealth_mean: 1056515<br />year: 2017<br />TYPE: St. Alban"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(236,105,239,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(236,105,239,1)"}},"hoveron":"points","name":"St. Alban","legendgroup":"St. Alban","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(236,105,239,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[108752,112173,115906,102486,125713,122793,124901,106492,110789,115398,108690,117448,124334,135759,131943,146195,151139],"text":["wealth_mean:  108752<br />year: 2001<br />TYPE: St. Johann","wealth_mean:  112173<br />year: 2002<br />TYPE: St. Johann","wealth_mean:  115906<br />year: 2003<br />TYPE: St. Johann","wealth_mean:  102486<br />year: 2004<br />TYPE: St. Johann","wealth_mean:  125713<br />year: 2005<br />TYPE: St. Johann","wealth_mean:  122793<br />year: 2006<br />TYPE: St. Johann","wealth_mean:  124901<br />year: 2007<br />TYPE: St. Johann","wealth_mean:  106492<br />year: 2008<br />TYPE: St. Johann","wealth_mean:  110789<br />year: 2009<br />TYPE: St. Johann","wealth_mean:  115398<br />year: 2010<br />TYPE: St. Johann","wealth_mean:  108690<br />year: 2011<br />TYPE: St. Johann","wealth_mean:  117448<br />year: 2012<br />TYPE: St. Johann","wealth_mean:  124334<br />year: 2013<br />TYPE: St. Johann","wealth_mean:  135759<br />year: 2014<br />TYPE: St. Johann","wealth_mean:  131943<br />year: 2015<br />TYPE: St. Johann","wealth_mean:  146195<br />year: 2016<br />TYPE: St. Johann","wealth_mean:  151139<br />year: 2017<br />TYPE: St. Johann"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(251,97,215,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(251,97,215,1)"}},"hoveron":"points","name":"St. Johann","legendgroup":"St. Johann","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(251,97,215,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[1119418,1293210,1440540,1586363,2053734,1723016,932311,830373,905328,996005,1121813,1372032,1562522,1800693,1392666,1434679,1523290],"text":["wealth_mean: 1119418<br />year: 2001<br />TYPE: Vorstädte","wealth_mean: 1293210<br />year: 2002<br />TYPE: Vorstädte","wealth_mean: 1440540<br />year: 2003<br />TYPE: Vorstädte","wealth_mean: 1586363<br />year: 2004<br />TYPE: Vorstädte","wealth_mean: 2053734<br />year: 2005<br />TYPE: Vorstädte","wealth_mean: 1723016<br />year: 2006<br />TYPE: Vorstädte","wealth_mean:  932311<br />year: 2007<br />TYPE: Vorstädte","wealth_mean:  830373<br />year: 2008<br />TYPE: Vorstädte","wealth_mean:  905328<br />year: 2009<br />TYPE: Vorstädte","wealth_mean:  996005<br />year: 2010<br />TYPE: Vorstädte","wealth_mean: 1121813<br />year: 2011<br />TYPE: Vorstädte","wealth_mean: 1372032<br />year: 2012<br />TYPE: Vorstädte","wealth_mean: 1562522<br />year: 2013<br />TYPE: Vorstädte","wealth_mean: 1800693<br />year: 2014<br />TYPE: Vorstädte","wealth_mean: 1392666<br />year: 2015<br />TYPE: Vorstädte","wealth_mean: 1434679<br />year: 2016<br />TYPE: Vorstädte","wealth_mean: 1523290<br />year: 2017<br />TYPE: Vorstädte"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(255,99,185,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(255,99,185,1)"}},"hoveron":"points","name":"Vorstädte","legendgroup":"Vorstädte","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(255,99,185,1)","dash":"solid"},"frame":null},{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[248001,239534,239286,196145,260332,278038,294679,292388,284055,332783,366464,253073,279127,565122,296022,350734,373707],"text":["wealth_mean:  248001<br />year: 2001<br />TYPE: Wettstein","wealth_mean:  239534<br />year: 2002<br />TYPE: Wettstein","wealth_mean:  239286<br />year: 2003<br />TYPE: Wettstein","wealth_mean:  196145<br />year: 2004<br />TYPE: Wettstein","wealth_mean:  260332<br />year: 2005<br />TYPE: Wettstein","wealth_mean:  278038<br />year: 2006<br />TYPE: Wettstein","wealth_mean:  294679<br />year: 2007<br />TYPE: Wettstein","wealth_mean:  292388<br />year: 2008<br />TYPE: Wettstein","wealth_mean:  284055<br />year: 2009<br />TYPE: Wettstein","wealth_mean:  332783<br />year: 2010<br />TYPE: Wettstein","wealth_mean:  366464<br />year: 2011<br />TYPE: Wettstein","wealth_mean:  253073<br />year: 2012<br />TYPE: Wettstein","wealth_mean:  279127<br />year: 2013<br />TYPE: Wettstein","wealth_mean:  565122<br />year: 2014<br />TYPE: Wettstein","wealth_mean:  296022<br />year: 2015<br />TYPE: Wettstein","wealth_mean:  350734<br />year: 2016<br />TYPE: Wettstein","wealth_mean:  373707<br />year: 2017<br />TYPE: Wettstein"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(255,107,150,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(255,107,150,1)"}},"hoveron":"points","name":"Wettstein","legendgroup":"Wettstein","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(255,107,150,1)","dash":"solid"},"frame":null}],"layout":{"margin":{"t":23.3059360730594,"r":7.30593607305936,"b":37.2602739726027,"l":54.7945205479452},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2000.2,2017.8],"tickmode":"array","ticktext":["2005","2010","2015"],"tickvals":[2005,2010,2015],"categoryorder":"array","categoryarray":["2005","2010","2015"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-94982.2,3009486.2],"tickmode":"array","ticktext":["0e+00","1e+06","2e+06","3e+06"],"tickvals":[0,1000000,2000000,3000000],"categoryorder":"array","categoryarray":["0e+00","1e+06","2e+06","3e+06"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"wealth_mean","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"d5bb4e40b5c5":{"y":{},"x":{},"colour":{},"type":"scatter"},"d5bb7a5dc0a5":{"y":{},"x":{},"colour":{}}},"cur_data":"d5bb4e40b5c5","visdat":{"d5bb4e40b5c5":["function (y) ","x"],"d5bb7a5dc0a5":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+]
+
+---
+
+.pull-left45[
+
+# &lt;img src="https://github.com/rstudio/hex-stickers/raw/master/PNG/rmarkdown.png" style="height:48px"&gt; &lt;mono&gt;RMarkdown&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for reports&lt;/font&gt;
+
+&lt;p align="left"&gt;&lt;img style="height:440px" src="image/markdown_map.png"&gt;&lt;/p&gt;
+]
+
+.pull-right45[
+&lt;br&gt;&lt;br&gt;
+&lt;p align="center"&gt;&lt;img style="height:510px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" src="image/markdown_map_pdf.png"&gt;&lt;/p&gt;
+]
+
+
+---
+
+# &lt;img src="https://github.com/rstudio/hex-stickers/raw/master/PNG/shiny.png" style="height:48px"&gt; &lt;mono&gt;shiny&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for web apps&lt;/font&gt;
+
+.pull-left45[
+
+
+```r
+ui &lt;- fluidPage(
+  tabsetPanel(
+      tabPanel(
+          selectInput(
+            "var", "Variable",
+            choices = list("wealth_mean",
+                           "wealth_median",
+                           "wealth_gini"))),
+      mainPanel(plotOutput("basel"))))
+
+server &lt;- function(input, output) {
+  output$basel &lt;- renderPlot({
+          ggplot(map) + 
+          geom_sf(
+            col = 'white', 
+            mapping = aes_string(
+              fill = input$var)) + 
+          guides(fill = FALSE) + 
+      theme_void()})}
+```
+
+]
+
+
+.pull-right45[
+&lt;iframe width="400" height="600" src="https://econpsychbasel.shinyapps.io/basel/" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+]
+
+---
+
+# &lt;img src="https://github.com/rstudio/hex-stickers/raw/master/PNG/rvest.png" style="height:48px"&gt; &lt;mono&gt;rvest&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for web scraping&lt;/font&gt;
+
+
+
+
+```r
+# Tabelle laden von Wikipedia (Pakete nicht vergessen)
+read_html("https://en.wikipedia.org/wiki/R_(programming_language)") %&gt;%
+  html_node(xpath = '//*[@id="mw-content-text"]/div[1]/table[2]') %&gt;%
+  html_table() %&gt;% as_tibble()
+```
+
+```
+## # A tibble: 21 x 3
+##    Release Date        Description                                                        
+##    &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;                                                              
+##  1 0.16    ""          "This is the last alpha version developed primarily by Ihaka and G…
+##  2 0.49    "1997-04-2… "This is the oldest source release which is currently available on…
+##  3 0.60    "1997-12-0… "R becomes an official part of the GNU Project. The code is hosted…
+##  4 0.65.1  "1999-10-0… "First versions of update.packages and install.packages functions …
+##  5 1.0     "2000-02-2… "Considered by its developers stable enough for production use.[55…
+##  6 1.4     "2001-12-1… "S4 methods are introduced and the first version for Mac OS X is m…
+##  7 1.8     "2003-10-0… "Introduced a flexible condition handling mechanism for signalling…
+##  8 2.0     "2004-10-0… "Introduced lazy loading, which enables fast loading of data with …
+##  9 2.1     "2005-04-1… "Support for UTF-8 encoding, and the beginnings of internationaliz…
+## 10 2.6.2   "2008-02-0… "Last version to support Windows 95, 98, Me and NT 4.0[56]"        
+## # … with 11 more rows
+```
+
+
+---
+
+# &lt;img src="https://cran.r-project.org/web/packages/tidytext/readme/man/figures/tidytext.png" style="height:48px"&gt; &lt;mono&gt;tidytext&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for text analysis&lt;/font&gt;
+
+
+
+.pull-left5[
+
+
+```r
+# Wörter zählen
+counts &lt;- 
+  read_html(".../R_(programming_language)") %&gt;%
+  html_text() %&gt;%
+  tibble() %&gt;%
+  unnest_tokens(w, ".") %&gt;%
+  filter(!str_detect(w, '[:digit:]')) %&gt;%
+  anti_join(stop_words) %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  top_n(100) 
+
+# Wordwolke
+wordcloud(counts$word, 
+          counts$n)
+```
+
+]
+
+.pull-right4[
+
+![](NextSteps_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# &lt;img src="https://www.tidymodels.org/images/tidymodels.png" style="height:48px"&gt; &lt;mono&gt;tidymodels&lt;/mono&gt; &lt;font style="font-size:24px"&gt;for machine learning&lt;/font&gt;
+
+.pull-left4[
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;Framework for machine learning.&lt;/span&gt;&lt;/li&gt;&lt;br&gt;
+  &lt;li class="m2"&gt;&lt;span&gt;Includes&lt;/span&gt;&lt;/li&gt;
+  &lt;ul class="level"&gt;
+    &lt;li&gt;&lt;span&gt;All sorts of models, including wrapper to &lt;a href="https://keras.rstudio.com/"&gt;keras&lt;/a&gt;, for deep learning.&lt;/span&gt;&lt;/li&gt; 
+    &lt;li&gt;&lt;span&gt;Model tuning&lt;/span&gt;&lt;/li&gt; 
+    &lt;li&gt;&lt;span&gt;Model evaluation&lt;/span&gt;&lt;/li&gt; 
+    &lt;li&gt;&lt;span&gt;etc.&lt;/span&gt;&lt;/li&gt; 
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+
+]
+
+.pull-right45[
+&lt;p align="center"&gt;&lt;img src="image/tidymodels.png" style="height:420px"&gt;&lt;/p&gt;
+
+]
+
+---
+
+.pull-left45[
+
+# &lt;img src="https://dbplyr.tidyverse.org/logo.png" style="height:48px"&gt; &lt;mono&gt;dbplyr&lt;/mono&gt;&lt;br&gt; &lt;font style="font-size:24px"&gt;for wrangling remote databases&lt;/font&gt;
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;R tidyverse is able to interface with most database types&lt;/high&gt;: &lt;mono&gt;MySQL&lt;/mono&gt;, &lt;mono&gt;MariaDB&lt;/mono&gt;, &lt;mono&gt;BigQuery&lt;/mono&gt;, &lt;mono&gt;Redshift&lt;/mono&gt;, etc. See &lt;a href="https://db.rstudio.com/databases"&gt;db.rstudio.com&lt;/a&gt;.&lt;/font&gt;&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m2"&gt;&lt;span&gt;&lt;mono&gt;dplyr&lt;/mono&gt; will be &lt;high&gt;translated in the backround&lt;/high&gt; to the appropriate query language&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+]
+
+.pull-right45[
+
+&lt;br&gt;
+
+
+
+
+
+
+
+```r
+# Verbinge mit MySQL Datenbank
+con &lt;- dbConnect(MySQL(), 
+         user='studiech_rbootca', 
+         password='Du*5hA+7NU:8T', 
+         dbname='studiech_rbootcamp', 
+         host='studie.ch',
+         port = 3306)
+
+# Extrahiere Tabelle Customers
+basel &lt;- tbl(con, "basel")
+basel
+```
+
+```
+## # Source:   table&lt;basel&gt; [?? x 20]
+## # Database: mysql 5.7.26-log-cll-lve
+## #   [studiech_rbootca@studie.ch:/studiech_rbootcamp]
+##      id geschlecht alter_jahre groesse
+##   &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;
+## 1     1 f                   87    165 
+## 2     2 m                   54    175.
+## 3     3 f                   34    147.
+## 4     4 m                   31    166.
+## 5     5 m                   24    180.
+## # … with more rows, and 16 more
+## #   variables
+```
+
+]
+
+---
+
+# Books  
+
+An incomplete list of good books loosely sorted by required amount of R experience.&lt;br&gt;&lt;br&gt;
+
+&lt;table width="80%" style="cellspacing:0; cellpadding:0; border:none;"&gt;
+
+  &lt;tr&gt;    
+
+  &lt;td&gt; 
+  &lt;a href="http://r4ds.had.co.nz/"&gt;&lt;img border="0" alt="W3Schools" src="http://r4ds.had.co.nz/cover.png" height="180"&gt;&lt;/a&gt;
+  &lt;/td&gt;
+
+  &lt;td&gt;
+  &lt;a href="https://covers.oreillystatic.com/images/0636920028574/cat.gif"&gt;&lt;img border="0" alt="W3Schools" src="https://covers.oreillystatic.com/images/0636920028574/cat.gif" height="180"&gt;&lt;/a&gt;
+  &lt;/td&gt;
+
+  &lt;td&gt; 
+  &lt;a href="https://ggplot2-book.org/"&gt;&lt;img border="0" alt="W3Schools" src="https://images-na.ssl-images-amazon.com/images/I/31uoy-qmhEL._SX331_BO1,204,203,200_.jpg" height="180"&gt;&lt;/a&gt;
+  &lt;/td&gt;
+
+  &lt;td&gt;
+  &lt;a href="https://www.springer.com/de/book/9783540799979"&gt;&lt;img border="0" alt="W3Schools" src="https://images.springer.com/sgw/books/medium/9783540799979.jpg" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+  
+  &lt;td&gt;
+  &lt;a href="https://bookdown.org/ndphillips/YaRrr/"&gt;&lt;img border="0" alt="W3Schools" src="https://bookdown.org/ndphillips/YaRrr/images/YaRrr_Cover.jpg" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+  
+  &lt;td&gt;
+  &lt;a href="https://www.orellfuessli.ch/shop/home/artikeldetails/ID35367941.html?ProvID=10917736&amp;gclid=Cj0KCQiAg_HhBRDNARIsAGHLV5238Q26gQmFttHRnYGjcAhz4CslStb-3qBegvuZS5gnCpWSLNlQvF0aAgfOEALw_wcB"&gt;&lt;img border="0" alt="W3Schools" src="https://assets.thalia.media/img/35367941-00-00.jpg" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+  
+  &lt;/tr&gt;
+  
+
+  &lt;tr style="background-color:#ffffff"&gt;
+
+  &lt;td&gt;
+  &lt;a href="http://appliedpredictivemodeling.com/"&gt;&lt;img border="0" alt="W3Schools" src="http://static1.squarespace.com/static/51156277e4b0b8b2ffe11c00/t/51157487e4b0b8b2ffe16829/1509217882069/?format=1500w" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+  
+  &lt;td&gt;
+  &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/ISLR%20First%20Printing.pdf"&gt;&lt;img border="0" alt="W3Schools" src="https://images-na.ssl-images-amazon.com/images/I/41EaH4W9LVL._SX332_BO1,204,203,200_.jpg" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+  
+  &lt;td&gt;
+  &lt;a href="https://www.manning.com/books/deep-learning-with-r"&gt;&lt;img border="0" alt="W3Schools" src="https://images-na.ssl-images-amazon.com/images/I/51h5d4dYaoL._SX396_BO1,204,203,200_.jpg" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+
+
+  &lt;td&gt;
+  &lt;a href="https://csgillespie.github.io/efficientR/"&gt;&lt;img border="0" alt="W3Schools" src="https://csgillespie.github.io/efficientR/figures/f0_web.png" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+
+  &lt;td&gt;
+  &lt;a href="www.rcpp.org/"&gt;&lt;img border="0" alt="W3Schools" src="https://assets.thalia.media/img/artikel/09be684f8f904312649b0aabdf417c7992cbcdad-00-00.jpeg" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+  
+  
+  &lt;td&gt;
+  &lt;a href="http://adv-r.had.co.nz/"&gt;&lt;img border="0" alt="W3Schools" src="https://images-na.ssl-images-amazon.com/images/I/41RJLhZ32VL._SX329_BO1,204,203,200_.jpg" height="180" &gt;&lt;/a&gt;
+  &lt;/td&gt;
+
+
+  &lt;/tr&gt;
+  
+
+
+&lt;/table&gt;
+&lt;br&gt;
+
+---
+
+class: center, middle
+
+# Thank you!
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

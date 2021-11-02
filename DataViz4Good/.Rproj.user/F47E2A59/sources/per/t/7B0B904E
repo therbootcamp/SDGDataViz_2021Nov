@@ -1,0 +1,27 @@
+{
+    "id": "7B0B904E",
+    "path": "~/Dropbox (2.0)/Work/Projects/DataCross/events/DataViz4Good/DataViz4Good/2_notebooks/Plotting.Rmd",
+    "project_path": "2_notebooks/Plotting.Rmd",
+    "type": "r_markdown",
+    "hash": "941911804",
+    "contents": "",
+    "dirty": false,
+    "created": 1612956759992.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "chunk_output_type": "console",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "70,69",
+        "scrollLine": "69"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1613035743,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1613035743375,
+    "read_only": false,
+    "read_only_alternatives": []
+}

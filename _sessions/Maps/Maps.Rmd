@@ -1,0 +1,478 @@
+---
+title: "Maps with ggplot2 and sf"
+author: "Data Visualization for Social Good<br>
+  <a href='https://correlaid.org/correlaid-x/switzerland/'>
+    CorrelAid Switzerland
+  </a>
+  <br>
+  <a href='https://correlaidswitzerland.github.io/DataViz4Good/'>
+    <i class='fas fa-clock' style='font-size:.9em;'></i>
+  </a>&#8239; 
+  <a href='https://correlaid.org/correlaid-x/switzerland/'>
+    <i class='fas fa-home' style='font-size:.9em;' ></i>
+  </a>&#8239;
+  <a href='switzerland@correlaid.org'>
+    <i class='fas fa-envelope' style='font-size: .9em;'></i>
+  </a>&#8239;
+  <a href='https://www.linkedin.com/company/correlaidswiss/'>
+    <i class='fab fa-linkedin' style='font-size: .9em;'></i>
+  </a>"
+date: "February 2021"
+output:
+  xaringan::moon_reader:
+    css: ["default", "baselrbootcamp.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+
+layout: true
+
+<div class="my-footer">
+  <span style="text-align:center">
+    <span> 
+      <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/by-sa.png" height=14 style="vertical-align: middle"/>
+    </span>
+    <a href="https://therbootcamp.github.io/">
+      <span style="padding-left:82px"> 
+        <font color="#7E7E7E">
+          https://correlaid.org/correlaid-x/switzerland/
+        </font>
+      </span>
+    </a>
+    <a href="https://correlaid.org/correlaid-x/switzerland/">
+      <font color="#7E7E7E">
+      Data Visualization for Social Good | February 2021
+      </font>
+    </a>
+    </span>
+  </div> 
+
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+# see: https://github.com/yihui/xaringan
+# install.packages("xaringan")
+# see: 
+# https://github.com/yihui/xaringan/wiki
+# https://github.com/gnab/remark/wiki/Markdown
+options(width=110)
+options(digits = 4)
+```
+
+```{r, echo = FALSE ,message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(comment=NA, fig.width=6, fig.height=6, echo = TRUE, eval = TRUE, 
+                      message = FALSE, warning = FALSE, fig.align = 'center', dpi = 200)
+library(tidyverse)
+library(ggthemes)
+library(sf)
+basel = read_csv('1_Data/taxation.csv')
+basel_map = sf::read_sf('1_Data/quarters')
+
+```
+
+
+
+.pull-left3[
+
+# Maps with <mono>ggplot</mono>/<mono>sf</mono>
+
+<ul>
+  <li class="m1"><span>Maps require geometric shapes stored in <high>shapefiles</high>.</span></li><br>
+  <li class="m2"><span>The <high>simple features</high> (<mono>sf</mono>) framework makes processing and visualizing maps with the <mono>tidyverse<mono> easy.</span></li>
+</ul>
+
+]
+
+
+.pull-right6[
+
+<br><br>
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+basel_map %>% 
+  left_join(basel %>% filter(year == 2017), by = c("TYPE" = "quarter")) %>% 
+  ggplot() + 
+  geom_sf(mapping=aes(fill = income_mean), col = 'white') + 
+ theme_void() + 
+  labs(title = "Inequality in Basel",
+       subtitle = "Average income in Basel's quarters in 2017",
+       caption = "Source: Open Data Basel Stadt") + 
+  scale_fill_continuous(name = 'Income') 
+```
+
+]
+
+---
+
+# Shapefiles
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Geospatial vector data format for <high>geographic information system</high> (GIS) software.</span></li><br>
+  <li class="m2"><span>Necessary files:</span></li>
+  <ul class="level">
+    <li><span><mono>.shp</mono> | actual shapefile</span></li>
+    <li><span><mono>.shx</mono> | shape index format</span></li>
+    <li><span><mono>.dbf</mono> | attribute format</span></li>
+  </ul><br>
+  <li class="m3"><span>Optional files:</span></li>
+  <ul class="level">
+    <li><span><mono>.prj</mono> | projection description</span></li>
+    <li><span><mono>.cpg</mono> | code page specification</span></li>
+  </ul>
+</ul>
+
+]
+
+
+.pull-right45[
+<p align="center">
+<img src="image/files.png" height="420px">
+</p>
+]
+
+
+---
+
+# <mono>sf</mono>
+
+
+```{r, echo = F, message=F}
+require(tibble)
+options(tibble.width = 100, tibble.max_extra_cols = 6, tibble.print_max = 10)
+```
+
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 4, dpi=250}
+read_sf('1_Data/quarters') 
+```
+
+
+---
+
+# <mono>geom_sf</mono>
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Since <mono>read_sf</mono> creates a <mono>tibble</tibble>, it can be plugged <high>straight into <mono>ggplot</mono></high>.</span></li><br>
+  <li class="m2"><span>The dedicated geom <mono>geom_sf</mono> plots the geometric polygons.</span></li>
+</ul>
+
+<br>
+
+```{r, eval = F, fig.width = 5, fig.height = 4, dpi=250}
+# read shapefiles
+quarters_map <- read_sf('1_Data/quarters')
+
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  geom_sf()
+   
+```
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+# read shapefiles
+quarters_map <- read_sf('1_Data/quarters')
+
+
+quarters_map %>% 
+  ggplot() +
+  geom_sf()
+```
+
+]
+
+
+---
+
+# <mono>geom_sf</mono>
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Since <mono>read_sf</mono> creates a <mono>tibble</tibble>, it can be plugged <high>straight into <mono>ggplot</mono></high>.</span></li><br>
+  <li class="m2"><span>The dedicated geom <mono>geom_sf</mono> plots the geometric polygons.</span></li>
+</ul>
+
+<br>
+
+```{r, eval = F, fig.width = 5, fig.height = 4, dpi=250}
+# read shapefiles
+quarters_map <- read_sf('1_Data/quarters')
+
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  geom_sf() + 
+  
+  # remove background
+  theme_void()
+   
+```
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+quarters_map <- read_sf('1_Data/quarters')
+
+quarters_map %>% 
+  ggplot() +
+  geom_sf() + 
+  theme_void()
+```
+
+]
+
+
+---
+
+# Wrangling
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Since <mono>read_sf</mono> creates a <mono>tibble</tibble>, one can easily <high>join additional data</high>.</span></li>
+</ul>
+
+<br>
+
+```{r, eval = F, fig.width = 5, fig.height = 4, dpi=250}
+# join basel tax data
+quarters_map <- quarters_map %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  geom_sf() + 
+  theme_void()
+```
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+quarters_map <- read_sf('1_Data/quarters') %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+
+quarters_map %>% 
+  ggplot() +
+  geom_sf() + 
+  theme_void()
+```
+
+]
+
+---
+
+# Add color
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Colors are set using <mono>aes()</mono> just like in a regular <mono>ggplot</mono>.</span></li>
+</ul>
+
+```{r, eval = F, fig.width = 5, fig.height = 4, dpi=250}
+# join basel tax data
+quarters_map <- quarters_map %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  
+  # fill color by income
+  geom_sf(aes(fill = income_mean)) + 
+  theme_void()
+```
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+quarters_map <- read_sf('1_Data/quarters') %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+quarters_map %>% 
+  ggplot() +
+  geom_sf(aes(fill = income_mean)) + 
+  theme_void()
+```
+
+]
+
+---
+
+# Styling
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Styling can be adjusted just like in any other <mono>ggplot<mono>.</span></li>
+</ul>
+
+```{r, eval = F, fig.width = 5, fig.height = 4, dpi=250}
+# join basel tax data
+quarters_map <- quarters_map %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  
+  # add white outlines
+  geom_sf(aes(fill = income_mean),
+              col = "white") + 
+  theme_void()
+```
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+quarters_map <- read_sf('1_Data/quarters') %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  geom_sf(aes(fill = income_mean),
+              col = "white") + 
+  theme_void()
+```
+
+]
+
+
+---
+
+# Styling
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Styling can be adjusted just like in any other <mono>ggplot<mono>.</span></li>
+</ul>
+
+```{r, eval = F, fig.width = 5, fig.height = 4, dpi=250}
+# join basel tax data
+quarters_map <- quarters_map %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  geom_sf(aes(fill = income_mean),
+              col = "white") + 
+  theme_void() + 
+  
+  # change legend title
+  scale_fill_continuous(name = 'Income') 
+```
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+quarters_map <- read_sf('1_Data/quarters') %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+quarters_map %>% 
+  ggplot() +
+  geom_sf(aes(fill = income_mean),
+              col = "white") + 
+  theme_void() + 
+  scale_fill_continuous(name = 'Income') 
+```
+
+]
+
+---
+
+# Styling
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span>Styling can be adjusted just like in any other <mono>ggplot<mono>.</span></li>
+</ul>
+
+```{r, eval = F, fig.width = 5, fig.height = 4, dpi=250}
+# join basel tax data
+quarters_map <- quarters_map %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+# plot quarters
+quarters_map %>% 
+  ggplot() +
+  geom_sf(aes(fill = income_mean),
+              col = "white") + 
+  theme_void() + 
+  scale_fill_continuous(name = 'Income') +
+  
+  # add annotion
+  labs(title = "Inequality in Basel",
+     subtitle = "Average income in Basel...",
+     caption = "ource: Open Data Basel...")
+```
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250, fig.align='center'}
+quarters_map <- read_sf('1_Data/quarters') %>% 
+  left_join(filter(basel, year == 2017), 
+            by = c("TYPE" = "quarter"))
+
+quarters_map %>% 
+  ggplot() +
+  geom_sf(aes(fill = income_mean),
+              col = "white") + 
+  theme_void() + 
+  scale_fill_continuous(name = 'Income') +
+  labs(title = "Inequality in Basel",
+     subtitle = "Average income in Basel's quarters in 2017",
+     caption = "Source: Open Data Basel Stadt")
+```
+
+]
+
+
+---
+
+class: middle, center
+
+<h1><a href="https://correlaidswitzerland.github.io/DataViz4Good/">Schedule</a></h1>
+
+
+
+

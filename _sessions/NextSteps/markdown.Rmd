@@ -1,0 +1,35 @@
+---
+title: "Basel"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Read data
+library(tidyverse)
+library(sf)
+basel_map = sf::read_sf('1_Data/map')
+basel <- read_csv('1_Data/taxation.csv')
+```
+
+## Wealth map
+
+The average wealth is $`r mean(basel$income_mean)`$.
+
+This is a map of wealth in 2017.
+
+```{r, message=FALSE, fig.height=6, fig.width=6}
+# Wealth map
+basel_map %>% 
+  left_join(basel, by = c('TYPE' = 'quarter')) %>% 
+  ggplot() + 
+  geom_sf(col = 'white',
+          mapping = aes(fill = wealth_mean)) + 
+  guides(fill = FALSE) + 
+  theme_void()
+```
+
+
+
+

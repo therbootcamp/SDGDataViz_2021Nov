@@ -1,0 +1,298 @@
+---
+title: "Welcome! <font style='font-size:48px'>(to the tidyverse)</font>"
+author: "Data Visualization for Social Good<br>
+  <a href='https://correlaid.org/correlaid-x/switzerland/'>
+    CorrelAid Switzerland
+  </a>
+  <br>
+  <a href='https://correlaidswitzerland.github.io/DataViz4Good/'>
+    <i class='fas fa-clock' style='font-size:.9em;'></i>
+  </a>&#8239; 
+  <a href='https://correlaid.org/correlaid-x/switzerland/'>
+    <i class='fas fa-home' style='font-size:.9em;' ></i>
+  </a>&#8239;
+  <a href='switzerland@correlaid.org'>
+    <i class='fas fa-envelope' style='font-size: .9em;'></i>
+  </a>&#8239;
+  <a href='https://www.linkedin.com/company/correlaidswiss/'>
+    <i class='fab fa-linkedin' style='font-size: .9em;'></i>
+  </a>"
+date: "February 2021"
+output:
+  xaringan::moon_reader:
+    css: ["default", "baselrbootcamp.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+
+layout: true
+
+<div class="my-footer">
+  <span style="text-align:center">
+    <span> 
+      <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/by-sa.png" height=14 style="vertical-align: middle"/>
+    </span>
+    <a href="https://therbootcamp.github.io/">
+      <span style="padding-left:82px"> 
+        <font color="#7E7E7E">
+          https://correlaid.org/correlaid-x/switzerland/
+        </font>
+      </span>
+    </a>
+    <a href="https://correlaid.org/correlaid-x/switzerland/">
+      <font color="#7E7E7E">
+      Data Visualization for Social Good | February 2021
+      </font>
+    </a>
+    </span>
+  </div> 
+
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+options(width=110)
+options(digits = 4)
+
+knitr::opts_chunk$set(fig.align = 'center')
+```
+
+<!---
+
+.pull-left45[
+<br><br><br><br><br>
+# Materialien
+
+Klicke auf <high>"....running..."</high> auf unserer Website!
+
+<font style="font-size:28px"><a href="www.therbootcamp.com"><b>www.therbootcamp.com</b></a></font>
+
+]
+
+.pull-right5[
+
+<br><br>
+<iframe src="https://therbootcamp.github.io" width="500" height="500"></iframe>
+
+]
+
+--->
+
+.pull-left6[
+
+<br><br><br><br><br>
+
+
+# Goal
+
+
+>### The goal of this workshop is to introduce you to data exploration and visualization with the R tidyverse, using a for-social-good working example!
+
+]
+
+.pull-right4[
+
+<br><br><br><br>
+<p align="center"><img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/target.png" height="350"></p>
+
+]
+
+---
+
+.pull-left3[
+
+# Inequality in Basel
+
+<font style="font-size:28px"><high><i class="far fa-question-circle"></i></high> How has the distribution of income and wealth changed within and between Basel's quarters from 2001 and 2017?</i></font>
+
+<br>
+
+<p align="center">
+<img src="image/basel_open_data.png" height=220px>
+</p>
+
+]
+
+.pull-right6[
+
+<br>
+
+<p align="center">
+<img src="image/quarters.png" height=540px>
+</p>
+
+]
+
+---
+
+.pull-left3[
+
+# Inequality in Basel
+
+<font style="font-size:28px"><high><i class="far fa-question-circle"></i></high> How has the distribution of income and wealth changed within and between Basel's quarters from 2001 and 2017?</i></font>
+
+<br>
+
+<p align="center">
+<img src="image/basel_open_data.png" height=220px>
+</p>
+
+]
+
+.pull-right6[
+
+<br>
+
+<p align="center">
+<img src="image/data.png" height=540px>
+</p>
+
+]
+
+
+
+
+---
+
+.pull-left3[
+
+# Mean, Median, Gini
+
+<ul>
+  <li class="m1"><span>Inequality arising from a <high>rich-get-richer</high> dynamic materializes as an increasingly right-skewed income distribution.</span></li><br>
+  <li class="m2"><span>This can be detected:</span></li><br>
+  <ul class="level">
+    <li><span><high>Mean</high> income grows faster than <high>median</high> income.</span></li><br>
+    <li><span>The <high>Gini</high> coefficient goes up.</span></li>
+  </ul>
+</ul>
+
+]
+
+
+.pull-right65[
+<br>
+<p align="center">
+<img src="image/distr.gif" width="360px"><br>
+<img src="image/gini.gif" width="360px">
+</p>
+]
+
+---
+
+.pull-left3[
+
+# Tidyverse
+
+<ul>
+  <li class="m1"><span>The tidyverse is...</span></li><br>
+  <ul class="level">
+    <li><span>A collection of user-friendly <high>packages</high> for analyzing <high>tidy data</high></span></li><br>
+    <li><span>An <high>ecosystem</high> for analytics and data science with common design principles</span></li><br>
+    <li><span>A <high>dialect</high> of the R language</span></li>
+  </ul>
+</ul>
+
+]
+
+.pull-right65[
+<br><br>
+<p align="center">
+<img src="image/tidyverse.png" height = "520px">
+</p>
+]
+
+
+---
+
+
+.pull-left3[
+
+# Tidyverse
+
+<ul>
+  <li class="m1"><span>The tidyverse is...</span></li><br>
+  <ul class="level">
+    <li><span>A collection of user-friendly <high>packages</high> for analyzing <high>tidy data</high></span></li><br>
+    <li><span>An <high>ecosystem</high> for analytics and data science with common design principles</span></li><br>
+    <li><span>A <high>dialect</high> of the R language</span></li>
+  </ul>
+</ul>
+
+]
+
+.pull-right65[
+<br><br>
+<p align="center">
+<img src="image/tidyverse_highlight.png" height = "520px">
+</p>
+]
+
+---
+
+# RStudio
+
+.pull-left3[
+
+<ul>
+  <li class="m1"><span>RStudio is...</span></li><br>
+  <ul class="level">
+    <li><span>A high-productivity <high>data science IDE.</high></span></li><br>
+    <li><span>The <high>company</high> behind the tidyverse.</span></li><br>
+    <li><span>Designed for R tidyverse with <high>good integration</high> for Python, Markdown, or C++.</span></li><br>
+  </ul>
+</ul>
+
+]
+
+.pull-right6[
+<p align="center">
+<img src="image/rstudio.png">
+</p>
+]
+
+
+---
+
+.pull-left45[
+
+<br>
+# Schedule 
+
+<ul>
+  <li class="m1"><span>The core of the workshop consists of four 40min sessions.</span></li>
+  <li class="m2"><span>Sessions consist of</span></li>
+  <ul class="level">
+    <li><span>15-20min introduction</high></span></li> 
+    <li><span>20-25min coding exercises></span></li> 
+  </ul>
+  <li class="m3"><span>Stick around for an intro to <a href="https://correlaid.org/correlaid-x/switzerland/">Correlaid Switzerland</a> at the end.</span></li>
+</ul>
+
+]
+
+.pull-right45[
+<br><br>
+<img src="image/schedule.png" height="480" align="center" style="padding-top:16px">
+
+]
+
+---
+
+class: middle, center
+
+<h1><a href="https://www.dropbox.com/s/k82cg8p2sl1ojn7/DataViz4Good.zip?dl=1">Download<br>materials</a></h1>
+
+
+---
+
+class: middle, center
+
+<h1><a href="https://correlaidswitzerland.github.io/DataViz4Good/">Schedule</a></h1>
+
+
