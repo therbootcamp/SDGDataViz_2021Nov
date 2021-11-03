@@ -8,29 +8,21 @@
 
     <div align="center">
       <div id="header" align=left style="display:inline-block">
-        <div style="display:table;width:100%">
-         <div style="display:table-cell;vertical-align:middle;width:25%;padding-right:40px;padding-top:20px">
-           <img class="logo" src="https://raw.githubusercontent.com//CorrelAidSwitzerland/DataViz4Good/main/src/img/correlaidx_white.png" height=100px>
-         </div>
-         <div style="display:table-cell;vertical-align:bottom;width:75%;padding-top:20px">
-           <h1>Data Visualization for Social Good</h1>
-           <span style="white-space: nowrap">
-             <a href='https://correlaid.org/correlaid-x/switzerland/'><i class='fas fa-home'></i></a>
-             <a href='https://therbootcamp.github.io/I2R_2020Mar/'><i class='fas fa-clock'></i></a>
-             <a href='mailto:switzerland@correlaid.org'><i class='fas fa-envelope'></i></a>
-             <!-- a href='https://github.com/CorrelAidSwitzerland'><i class='fab fa-github'></i></a -->
-             <a href='https://twitter.com/CorrelAidSwiss'><i class='fab fa-twitter'></i></a>
-             <a href='https://github.com/CorrelAidSwitzerland'>
-               <font style='font-style:normal;font-size:20px;padding-left:8px'>CorrelAid Switzerland</font>
-             </a>
-           </span>
-           <br>
-           <span style="white-space: nowrap">
-             <img src='https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/by-sa.png' style= 'height:2rem; vertical-align:baseline'/>
-             <font style='font-size:2rem;font-style:normal;padding-left:8px'>February 2021</font>
-           <span>
-         </div>
-       </div>
+        <h1>Intro to Data Visualization with ggplot2</h1>
+        <span style="white-space: nowrap">
+          <a href='http://therbootcamp.github.io/'><i class='fas fa-home'></i></a>
+          <a href='http://therbootcamp.github.io/SDGDataViz_2021Nov'><i class='fas fa-clock'></i></a>
+          <a href='mailto:therbootcamp@gmail.com'><i class='fas fa-envelope'></i></a>
+          <a href='https://www.linkedin.com/company/27090302'><i class='fab fa-linkedin'></i></a>
+          <a href='http://therbootcamp.github.io/'>
+            <font style='font-style:normal;font-size:20px;padding-left:5px'>The R Bootcamp @ SDG Hackathon</font>
+          </a>
+        </span>
+        <br>
+        <span style="white-space: nowrap">
+          <img src='https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/by-sa.png' style= 'height:2rem; vertical-align:baseline'/>
+          <font style='font-size:2rem;font-style:normal;padding-left:8px'>November 2021</font>
+        <span>
     </div>
 
 
@@ -49,12 +41,12 @@
             Use the following links to install the newest versions of R und RStudio.<br><br>
 
             <b>Install Base-R</b>:
-            <a href="https://cran.r-project.org/bin/windows/base/R-4.0.3-win.exe">R 4.0.3 (Windows)</a>,
-            <a href="https://cran.r-project.org/bin/macosx/R-4.0.3.pkg">R 4.0.3 (Mac)</a><br>
+            <a href="https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe">R (Windows)</a>,
+            <a href="https://cran.r-project.org/bin/macosx/base/R-4.1.2.pkg">R (Mac)</a><br>
 
             <b>Install RStudio</b>:
-            <a href="https://download1.rstudio.org/desktop/windows/RStudio-1.4.1103.exe">RStudio 1.4 (Windows)</a>,
-            <a href="https://download1.rstudio.org/desktop/macos/RStudio-1.4.1103.dmg">RStudio 1.4 (Mac)</a>
+            <a href="https://download1.rstudio.org/desktop/windows/RStudio-2021.09.0-351.exe">RStudio (Windows)</a>,
+            <a href="https://download1.rstudio.org/desktop/macos/RStudio-2021.09.0-351.dmg">RStudio (Mac)</a>
           </h4>
           </td>
         </tr>
@@ -68,7 +60,7 @@
             <h4>
             For this workshop, we will rely on R packages that need to be installed. To do this, run the following code within your R Console within R Studio: <br><br>
 
-            install.packages(c("tidyverse", "sf"))<br><br>
+            install.packages(c("tidyverse", "ggthemes", "lubridate"))<br><br>
 
             To avoid problems during the installation of packages, please enter n for No, when you are asked to install a package from source.<br><br>
           </h4>
@@ -84,7 +76,7 @@
             <h4>
             If you want to install packages from source (or if installation fails), install the following software for the necessary compilers.<br><br>
 
-            Windows: <a href="https://cran.r-project.org/bin/windows/Rtools/rtools40-x86_64.exe">RTools</a><br>
+            Windows: <a href="https://cran.r-project.org/bin/windows/Rtools/rtools40v2-x86_64.exe">RTools</a><br>
             Mac: <a href="https://developer.apple.com/download/more/">Command line tools</a> (no direct link available)
 
           </h4>
@@ -98,7 +90,7 @@
       <table width=50% cellspacing=0 cellpadding=0 class="zoom">
         <tr>
           <td>
-            <a href="https://correlaidswitzerland.github.io/DataViz4Good/" style="display:block;height:100%;width:100%">
+            <a href="https://therbootcamp.github.io/SDGDataViz_2021Nov/" style="display:block;height:100%;width:100%">
               <div style="display:table;height:60px;width:100%">
                <div style="display:table-cell;vertical-align:middle;text-align:center;width:100%;color:black"><h4>Back</h4></div>
              </div>
