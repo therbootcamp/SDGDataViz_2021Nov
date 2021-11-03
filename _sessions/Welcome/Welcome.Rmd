@@ -93,7 +93,7 @@ Klicke auf <high>"....running..."</high> auf unserer Website!
 # Goal
 
 
->### The goal of this workshop is to introduce to data visualization with ggplot2, with some sprinkles from the rest of the tidyverse!
+>### The goal of this workshop is to introduce to data visualization with ggplot2, including some sprinkles of other tidyverse packages, and introduce you to the hackathon data set!
 
 ]
 
