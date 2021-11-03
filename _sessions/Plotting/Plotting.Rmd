@@ -1,23 +1,23 @@
 ---
-title: "Intro to ggplot2"
-author: "Data Visualization for Social Good<br>
+title: "ggplot basics"
+author: "Intro to data visualization with ggplot2<br>
   <a href='https://correlaid.org/correlaid-x/switzerland/'>
-    CorrelAid Switzerland
+    The R Bootcamp
   </a>
   <br>
-  <a href='https://correlaidswitzerland.github.io/DataViz4Good/'>
+  <a href='https://therbootcamp.github.io/SDGDataViz_2021Nov/'>
     <i class='fas fa-clock' style='font-size:.9em;'></i>
   </a>&#8239; 
-  <a href='https://correlaid.org/correlaid-x/switzerland/'>
+  <a href='https://therbootcamp.github.io/'>
     <i class='fas fa-home' style='font-size:.9em;' ></i>
   </a>&#8239;
-  <a href='switzerland@correlaid.org'>
+  <a href='therbootcamp@gmail.com'>
     <i class='fas fa-envelope' style='font-size: .9em;'></i>
   </a>&#8239;
   <a href='https://www.linkedin.com/company/correlaidswiss/'>
     <i class='fab fa-linkedin' style='font-size: .9em;'></i>
   </a>"
-date: "February 2021"
+date: "November 2021"
 output:
   xaringan::moon_reader:
     css: ["default", "baselrbootcamp.css"]
@@ -27,6 +27,8 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       ratio: '16:9'
+editor_options: 
+  chunk_output_type: console
 ---
 
 layout: true
@@ -39,25 +41,19 @@ layout: true
     <a href="https://therbootcamp.github.io/">
       <span style="padding-left:82px"> 
         <font color="#7E7E7E">
-          https://correlaid.org/correlaid-x/switzerland/
+          therbootcamp.github.io
         </font>
       </span>
     </a>
-    <a href="https://correlaid.org/correlaid-x/switzerland/">
+    <a href="therbootcamp.github.io">
       <font color="#7E7E7E">
-      Data Visualization for Social Good | February 2021
+      Intro to data visualization with ggplot2 | Novemeber 2021
       </font>
     </a>
     </span>
   </div> 
 
 ---
-
-
-```{r, eval = TRUE, echo = FALSE, warning=F,message=F}
-# Code to knit slides
-baselers <- readr::read_csv("1_Data/basel.csv")
-```
 
 
 ```{r setup, include=FALSE}
@@ -72,11 +68,14 @@ options(digits = 4)
 ```
 
 ```{r, echo = FALSE ,message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(comment=NA, fig.width=6, fig.height=6, echo = TRUE, eval = TRUE, 
-                      message = FALSE, warning = FALSE, fig.align = 'center', dpi = 200)
+knitr::opts_chunk$set(comment=NA, fig.width=6, fig.height=6, 
+                      echo = TRUE, eval = TRUE, 
+                      message = FALSE, warning = FALSE, 
+                      fig.align = 'center', dpi = 200)
 library(tidyverse)
+library(lubridate)
 library(ggthemes)
-basel = read_csv('1_Data/taxation.csv')
+project_sdgs = read_csv('1_Data/sdg_hackathon_data.zip')
 ```
 
 
@@ -130,18 +129,63 @@ basel = read_csv('1_Data/taxation.csv')
 
 ```{r, echo = FALSE, fig.width = 5, fig.height = 4, dpi=250}
                                                
-basel_agg = basel %>% 
-  group_by(year) %>% 
-  summarize(
-    income_mean = mean(income_mean),
-    income_median = mean(income_median)
-  ) %>% 
-  pivot_longer(-year, names_to = 'statistic', 
-               values_to = 'income')
+sdg_props = project_sdgs %>% 
+  mutate(year = year(start_date)) %>% 
+  group_by(system, sdg, year) %>% 
+  summarize(n = n()) %>% 
+  filter(year > 2008 & year < 2022,
+         system == "elsevier",
+         sdg %in% c("SDG-01", "SDG-06")) %>% 
+  group_by(system, year) %>% 
+  mutate(prop = n / sum(n))
 
-ggplot(data = basel_agg, 
-       mapping = aes(x = year, y = income, col = statistic)) + 
-  geom_point() + geom_line() 
+sdg_props %>% 
+  ggplot(aes(x = year, y = prop, col = sdg)) +
+  geom_point() + geom_line()
+```
+
+]
+
+---
+
+# Wrangling
+
+.pull-left45[
+
+```{r}
+sdg_props = project_sdgs %>% 
+  
+  # create year variable
+  mutate(year = year(start_date)) %>% 
+  
+  # count projects by system, sdg, and year
+  group_by(system, sdg, year) %>% 
+  summarize(n = n()) %>% 
+  
+  # filter year, system 
+  filter(year > 2008 & year < 2022,
+         system == "elsevier",
+         sdg %in% c("SDG-01", "SDG-06")) %>% 
+    
+  # normalize within year
+  group_by(year) %>% 
+  mutate(prop = n / sum(n))
+```
+
+]
+
+
+.pull-right45[
+
+```{r, echo = F, message=F}
+require(tibble)
+options(tibble.width = 35, tibble.max_extra_cols = 10, tibble.print_max = 5,
+        tibble.print_min = 8)
+```
+
+
+```{r, fig.width = 5, fig.height = 4}
+sdg_props
 ```
 
 ]
@@ -165,22 +209,13 @@ ggplot(data = basel_agg,
   </span></li>
 </ul>
 
-```{r}
-# averages per year
-basel_avg <- basel %>% 
-  group_by(year) %>% 
-  summarize(
-    income_mean = mean(income_mean),
-    income_median = mean(income_median))
-```
-
 ]
 
 
 .pull-right45[
 
 ```{r, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg)
+ggplot(data = sdg_props)
 ```
 
 ]
@@ -194,7 +229,7 @@ ggplot(data = basel_avg)
 .pull-left45[
 
 <ul>
-  <li class="m1"><span><mono>aes()</mono> helps define the structure of the <highm>mapping</highm> Argument.</span></li>
+  <li class="m1"><span><mono>aes()</mono> helps define the structure of the <highm>mapping</highm> argument.</span></li>
   <li class="m2"><span>Key arguments:</span></li>
   <ul class="level">
     <li><span><mono>x, y</mono> | Defines axes</span></li>
@@ -205,14 +240,23 @@ ggplot(data = basel_avg)
   </ul>
 </ul>
 
+<br>
+
+```{r, fig.width = 5, fig.height = 4, eval = F }
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop))
+```
+
+
 ]
 
 .pull-right45[
 
-```{r, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg,
+```{r, fig.width = 5, fig.height = 4, echo  = F}
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean))
+                     y = prop))
 ```
 
 ]
@@ -231,9 +275,9 @@ ggplot(data = basel_avg,
 <br>
 
 ```{r, eval = FALSE, fig.width = 5, fig.height = 4, out.width = "90%"}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop)) +
   
   # Show as points
   geom_point() 
@@ -246,14 +290,60 @@ ggplot(data = basel_avg,
 
 
 ```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop)) +
   
   # Show as points
   geom_point() 
 ```
 
+
+]
+
+---
+
+# `aes()`
+
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span><mono>aes()</mono> helps define the structure of the <highm>mapping</highm> argument.</span></li>
+  <li class="m2"><span>Key arguments:</span></li>
+  <ul class="level">
+    <li><span><mono>x, y</mono> | Defines axes</span></li>
+    <li><span><mono>color,fill</mono> | Defines colors</span></li>
+    <li><span><mono>alpha</mono> | Defines opacity</span></li>
+    <li><span><mono>size</mono> | Defines sizes</span></li>
+    <li><span><mono>shape</mono> | Defines shapes (e.g., circles or squares)</span></li>
+  </ul>
+</ul>
+
+```{r, fig.width = 5, fig.height = 4, eval = FALSE}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     
+                     # add color aesthetic
+                     col = sdg)) +
+  geom_point() 
+```
+
+
+]
+
+.pull-right45[
+
+```{r, fig.width = 5, fig.height = 4, echo = FALSE}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     
+                     # add color aesthetic
+                     col = sdg)) +
+  geom_point() 
+```
 
 ]
 
@@ -277,14 +367,27 @@ ggplot(data = basel_avg,
   </ul>
 </ul>
 
+
+```{r, eval = FALSE, fig.width = 5, fig.height = 4}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     col = sdg)) +
+  
+  # Show as points
+  geom_point() 
+```
+
+
 ]
 
 .pull-right45[
 
 ```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as points
   geom_point() 
@@ -305,9 +408,10 @@ ggplot(data = basel_avg,
 
 <br>
 ```{r, eval = F}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as lines
   geom_line() 
@@ -319,9 +423,10 @@ ggplot(data = basel_avg,
 .pull-right45[
 
 ```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as points
   geom_line() 
@@ -342,9 +447,10 @@ ggplot(data = basel_avg,
 
 <br>
 ```{r, eval = F}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as smoothed curve
   geom_smooth() 
@@ -356,9 +462,10 @@ ggplot(data = basel_avg,
 .pull-right45[
 
 ```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as smoothed curve
   geom_smooth() 
@@ -380,9 +487,10 @@ ggplot(data = basel_avg,
 
 <br>
 ```{r, eval = F}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as points and lines
   geom_point() +
@@ -395,171 +503,17 @@ ggplot(data = basel_avg,
 .pull-right45[
 
 ```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
-  # Show as points
+  # Show as points and lines
   geom_point() +
   geom_line() 
 ```
 
 ]
-
----
-
-# `geom_*()`
-
-.pull-left45[
-
-<ul>
-  <li class="m1"><span>Most <mono>geom_*()</mono> functions allow specification of <highm>data</highm> and <highm>mapping</highm>.</span></li>
-</ul>
-
-<br>
-```{r, eval = F}
-ggplot(data = basel_avg,
-       mapping = aes(x = year, 
-                     y = income_mean)) +
-  geom_point() +
-  geom_line() +
-  
-  # Add points and lines for median
-  geom_point(aes(y = income_median)) +
-  geom_line(aes(y = income_median))
-```
-
-
-]
-
-.pull-right45[
-
-```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg,
-       mapping = aes(x = year, 
-                     y = income_mean)) +
-  geom_point() +
-  geom_line() +
-  
-  # Add points and lines for median
-  geom_point(aes(y = income_median)) +
-  geom_line(aes(y = income_median))
-```
-
-]
-
----
-
-# Wrangling
-
-.pull-left45[
-
-<ul>
-  <li class="m1"><span>Oftentimes, creating the desired plot requires appropriate data wrangling.</span></li>
-  <li class="m2"><span><mono>ggplot</mono> works best with <high>long data formats</high>.</span></li>
-</ul>
-
-<br>
-```{r, eval = T}
-# pivot to long format
-basel_avg_long <- basel_avg %>% 
-  pivot_longer(-year, 
-               names_to = "statistic", 
-               values_to = "income")
-```
-
-
-]
-
-.pull-right45[
-
-```{r, echo = TRUE, fig.width = 5, fig.height = 4}
-basel_avg_long
-```
-
-]
-
----
-
-# <mono>aes()</mono>
-
-.pull-left45[
-
-<ul>
-  <li class="m1"><span><mono>aes()</mono> helps define the structure of the <highm>mapping</highm> Argument.</span></li>
-
-<br>
-```{r, eval = F}
-# use basel_avg_long
-ggplot(data = basel_avg_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-                     
-         # add color dimension
-         col = statistic)) +
-  geom_point() +
-  geom_line() 
-```
-
-
-
-]
-
-.pull-right45[
-
-```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg_long,
-       mapping = aes(x = year, 
-                     y = income,
-                     col = statistic)) +
-  geom_point() +
-  geom_line() 
-```
-
-]
-
----
-
-# <mono>aes()</mono>
-
-.pull-left45[
-
-<ul>
-  <li class="m1"><span><mono>aes()</mono> helps define the structure of the <highm>mapping</highm> Argument.</span></li>
-
-<br>
-```{r, eval = F}
-# use basel_avg_long
-ggplot(data = basel_avg_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-                     
-         # add shape dimension
-         shape = statistic)) +
-  geom_point() +
-  geom_line() 
-```
-
-
-
-]
-
-.pull-right45[
-
-```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = basel_avg_long,
-       mapping = aes(x = year, 
-                     y = income,
-                     shape = statistic)) +
-  geom_point() +
-  geom_line() 
-```
-
-]
-
-
 
 ---
 
@@ -578,25 +532,56 @@ ggplot(data = basel_avg_long,
 
 <br>
 
+]
+
+.pull-right45[
+
+```{r, fig.width = 5, fig.height = 4, echo = FALSE}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     col = sdg)) +
+  geom_point() +
+  geom_line() 
+```
+
+]
+
+---
+
+# Wrangling
+
+.pull-left45[
+
+
 ```{r, fig.width = 5, fig.height = 4, echo = TRUE}
-basel_long <- basel %>% 
-  pivot_longer(c(income_mean, income_median),
-               names_to = 'statistic',
-               values_to = 'income')
+sdg_props = project_sdgs %>% 
+  mutate(year = year(start_date)) %>% 
+  group_by(system, sdg, year) %>% 
+  summarize(n = n()) %>% 
+  
+  # no filtering of systems
+  filter(year > 2008 & year < 2022,
+         sdg %in% c("SDG-01", "SDG-06")) %>% 
+  
+  # group by year and system
+  group_by(year, system) %>%
+  mutate(prop = n / sum(n))
 ```
 
 ]
 
 .pull-right45[
 
+```{r, echo = F, message=F}
+require(tibble)
+options(tibble.width = 35, tibble.max_extra_cols = 10, tibble.print_max = 5,
+        tibble.print_min = 14)
+```
+
+
 ```{r, fig.width = 5, fig.height = 4, echo = FALSE}
-ggplot(data = basel_avg_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-         color = statistic)) +
-  geom_point() +
-  geom_line() 
+sdg_props
 ```
 
 ]
@@ -614,17 +599,15 @@ ggplot(data = basel_avg_long,
 <br>
 
 ```{r, fig.width = 5, fig.height = 4, echo = TRUE, eval = F}
-# use basel_long
-ggplot(data = basel_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-         col = statistic)) +
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     col = sdg)) +
   geom_point() +
   geom_line() +
   
-  # facet by quarter
-  facet_wrap(~quarter)
+  # facet by system
+  facet_wrap(~system)
 ```
 
 ]
@@ -634,14 +617,15 @@ ggplot(data = basel_long,
 <br><br><br>
 
 ```{r, fig.width = 8, fig.height = 7, echo = FALSE}
-ggplot(data = basel_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-         color = statistic)) +
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     col = sdg)) +
   geom_point() +
   geom_line() +
-  facet_wrap(~quarter)
+  
+  # facet by system
+  facet_wrap(~system)
 ```
 
 ]
@@ -651,7 +635,7 @@ ggplot(data = basel_long,
 
 class: middle, center
 
-<h1><a href="https://correlaidswitzerland.github.io/DataViz4Good/">Schedule</a></h1>
+<h1><a href="therbootcamp.github.io/SDGDataViz_2021Nov/">Schedule</a></h1>
 
 
 

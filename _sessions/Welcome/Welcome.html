@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Welcome! (to the tidyverse)</title>
+    <title>Welcome!</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Data Visualization for Social Good   CorrelAid Switzerland                  " />
+    <meta name="author" content="Intro to data visualization with ggplot2   The R Bootcamp                  " />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="baselrbootcamp.css" type="text/css" />
@@ -12,9 +12,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Welcome! <font style='font-size:48px'>(to the tidyverse)</font>
-### Data Visualization for Social Good<br> <a href='https://correlaid.org/correlaid-x/switzerland/'> CorrelAid Switzerland </a> <br> <a href='https://correlaidswitzerland.github.io/DataViz4Good/'> <i class='fas fa-clock' style='font-size:.9em;'></i> </a>  <a href='https://correlaid.org/correlaid-x/switzerland/'> <i class='fas fa-home' style='font-size:.9em;' ></i> </a>  <a href='switzerland@correlaid.org'> <i class='fas fa-envelope' style='font-size: .9em;'></i> </a>  <a href='https://www.linkedin.com/company/correlaidswiss/'> <i class='fab fa-linkedin' style='font-size: .9em;'></i> </a>
-### February 2021
+# Welcome!
+### Intro to data visualization with ggplot2<br> <a href='https://correlaid.org/correlaid-x/switzerland/'> The R Bootcamp </a> <br> <a href='https://therbootcamp.github.io/SDGDataViz_2021Nov/'> <i class='fas fa-clock' style='font-size:.9em;'></i> </a>  <a href='https://therbootcamp.github.io/'> <i class='fas fa-home' style='font-size:.9em;' ></i> </a>  <a href='therbootcamp@gmail.com'> <i class='fas fa-envelope' style='font-size: .9em;'></i> </a>  <a href='https://www.linkedin.com/company/correlaidswiss/'> <i class='fab fa-linkedin' style='font-size: .9em;'></i> </a>
+### November 2021
 
 ---
 
@@ -29,13 +29,13 @@ layout: true
     &lt;a href="https://therbootcamp.github.io/"&gt;
       &lt;span style="padding-left:82px"&gt; 
         &lt;font color="#7E7E7E"&gt;
-          https://correlaid.org/correlaid-x/switzerland/
+          therbootcamp.github.io
         &lt;/font&gt;
       &lt;/span&gt;
     &lt;/a&gt;
-    &lt;a href="https://correlaid.org/correlaid-x/switzerland/"&gt;
+    &lt;a href="therbootcamp.github.io"&gt;
       &lt;font color="#7E7E7E"&gt;
-      Data Visualization for Social Good | February 2021
+      Intro to data visualization with ggplot2 | Novemeber 2021
       &lt;/font&gt;
     &lt;/a&gt;
     &lt;/span&gt;
@@ -75,7 +75,7 @@ Klicke auf &lt;high&gt;"....running..."&lt;/high&gt; auf unserer Website!
 # Goal
 
 
-&gt;### The goal of this workshop is to introduce you to data exploration and visualization with the R tidyverse, using a for-social-good working example!
+&gt;### The goal of this workshop is to introduce to data visualization with ggplot2, with some sprinkles from the rest of the tidyverse!
 
 ]
 
@@ -84,87 +84,6 @@ Klicke auf &lt;high&gt;"....running..."&lt;/high&gt; auf unserer Website!
 &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
 &lt;p align="center"&gt;&lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/target.png" height="350"&gt;&lt;/p&gt;
 
-]
-
----
-
-.pull-left3[
-
-# Inequality in Basel
-
-&lt;font style="font-size:28px"&gt;&lt;high&gt;&lt;i class="far fa-question-circle"&gt;&lt;/i&gt;&lt;/high&gt; How has the distribution of income and wealth changed within and between Basel's quarters from 2001 and 2017?&lt;/i&gt;&lt;/font&gt;
-
-&lt;br&gt;
-
-&lt;p align="center"&gt;
-&lt;img src="image/basel_open_data.png" height=220px&gt;
-&lt;/p&gt;
-
-]
-
-.pull-right6[
-
-&lt;br&gt;
-
-&lt;p align="center"&gt;
-&lt;img src="image/quarters.png" height=540px&gt;
-&lt;/p&gt;
-
-]
-
----
-
-.pull-left3[
-
-# Inequality in Basel
-
-&lt;font style="font-size:28px"&gt;&lt;high&gt;&lt;i class="far fa-question-circle"&gt;&lt;/i&gt;&lt;/high&gt; How has the distribution of income and wealth changed within and between Basel's quarters from 2001 and 2017?&lt;/i&gt;&lt;/font&gt;
-
-&lt;br&gt;
-
-&lt;p align="center"&gt;
-&lt;img src="image/basel_open_data.png" height=220px&gt;
-&lt;/p&gt;
-
-]
-
-.pull-right6[
-
-&lt;br&gt;
-
-&lt;p align="center"&gt;
-&lt;img src="image/data.png" height=540px&gt;
-&lt;/p&gt;
-
-]
-
-
-
-
----
-
-.pull-left3[
-
-# Mean, Median, Gini
-
-&lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;Inequality arising from a &lt;high&gt;rich-get-richer&lt;/high&gt; dynamic materializes as an increasingly right-skewed income distribution.&lt;/span&gt;&lt;/li&gt;&lt;br&gt;
-  &lt;li class="m2"&gt;&lt;span&gt;This can be detected:&lt;/span&gt;&lt;/li&gt;&lt;br&gt;
-  &lt;ul class="level"&gt;
-    &lt;li&gt;&lt;span&gt;&lt;high&gt;Mean&lt;/high&gt; income grows faster than &lt;high&gt;median&lt;/high&gt; income.&lt;/span&gt;&lt;/li&gt;&lt;br&gt;
-    &lt;li&gt;&lt;span&gt;The &lt;high&gt;Gini&lt;/high&gt; coefficient goes up.&lt;/span&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/ul&gt;
-
-]
-
-
-.pull-right65[
-&lt;br&gt;
-&lt;p align="center"&gt;
-&lt;img src="image/distr.gif" width="360px"&gt;&lt;br&gt;
-&lt;img src="image/gini.gif" width="360px"&gt;
-&lt;/p&gt;
 ]
 
 ---

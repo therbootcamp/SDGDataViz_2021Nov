@@ -1,23 +1,23 @@
 ---
 title: "Wrangling"
-author: "Data Visualization for Social Good<br>
+author: "Intro to data visualization with ggplot2<br>
   <a href='https://correlaid.org/correlaid-x/switzerland/'>
-    CorrelAid Switzerland
+    The R Bootcamp
   </a>
   <br>
-  <a href='https://correlaidswitzerland.github.io/DataViz4Good/'>
+  <a href='https://therbootcamp.github.io/SDGDataViz_2021Nov/'>
     <i class='fas fa-clock' style='font-size:.9em;'></i>
   </a>&#8239; 
-  <a href='https://correlaid.org/correlaid-x/switzerland/'>
+  <a href='https://therbootcamp.github.io/'>
     <i class='fas fa-home' style='font-size:.9em;' ></i>
   </a>&#8239;
-  <a href='switzerland@correlaid.org'>
+  <a href='therbootcamp@gmail.com'>
     <i class='fas fa-envelope' style='font-size: .9em;'></i>
   </a>&#8239;
   <a href='https://www.linkedin.com/company/correlaidswiss/'>
     <i class='fab fa-linkedin' style='font-size: .9em;'></i>
   </a>"
-date: "February 2021"
+date: "November 2021"
 output:
   xaringan::moon_reader:
     css: ["default", "baselrbootcamp.css"]
@@ -27,6 +27,8 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       ratio: '16:9'
+editor_options: 
+  chunk_output_type: console
 ---
 
 layout: true
@@ -39,13 +41,13 @@ layout: true
     <a href="https://therbootcamp.github.io/">
       <span style="padding-left:82px"> 
         <font color="#7E7E7E">
-          https://correlaid.org/correlaid-x/switzerland/
+          therbootcamp.github.io
         </font>
       </span>
     </a>
-    <a href="https://correlaid.org/correlaid-x/switzerland/">
+    <a href="therbootcamp.github.io">
       <font color="#7E7E7E">
-      Data Visualization for Social Good | February 2021
+      Intro to data visualization with ggplot2 | Novemeber 2021
       </font>
     </a>
     </span>
@@ -63,7 +65,8 @@ options(htmltools.dir.version = FALSE)
 options(width=110)
 options(digits = 4)
 require(tidyverse)
-basel = readr::read_csv('1_data/basel.csv')
+require(lubridate)
+project_sdgs = readr::read_csv('1_Data/sdg_hackathon_data.zip')
 ```
 
 <!---
@@ -197,39 +200,6 @@ score %>%
 
 # <mono>readr</mono>
 
-
-.pull-left45[
-
-<ul>
-  <li class="m1"><span>Benefits over <mono>read.csv</mono>:</span></li>
-  <ul class="level">
-    <li><span>Better type inference</span></li>
-    <li><span>Avoids <mono>factors</mono></span></li>
-    <li><span>Produces <highm>tibble</highm></span></li>
-  </ul></span></li>
-</ul>
-
-<br>
-<p align="center">
-  <img src="https://github.com/rstudio/hex-stickers/raw/master/PNG/readr.png" height=240px>
-</p>
-
-]
-
-
-.pull-right45[
-
-<p align="center">
-  <img src="image/data.png" height=400>
-</p>
-
-]
-
-
----
-
-# <mono>readr</mono>
-
 .pull-left45[
 
 <ul>
@@ -252,16 +222,16 @@ score %>%
 
 ```{r, echo = F, message=F}
 require(tibble)
-options(tibble.width = 35, tibble.max_extra_cols = 10, tibble.print_max = 3,
+options(tibble.width = 35, tibble.max_extra_cols = 5, tibble.print_max = 3,
         tibble.print_min = 5)
 ```
 
 
 ```{r, message = F}
-# Read in taxation
-basel <- read_csv("1_Data/taxation.csv")
+# Read in sdg hackathon data
+project_sdgs <- read_csv("1_Data/sdg_hackathon_data.zip")
 
-basel
+project_sdgs
 
 ```
 
@@ -293,14 +263,14 @@ basel
 
 ```{r, echo = F, message=F}
 require(tibble)
-options(tibble.width = 35, tibble.max_extra_cols = 10, tibble.print_max = 3,
+options(tibble.width = 35, tibble.max_extra_cols = 5, tibble.print_max = 3,
         tibble.print_min = 5)
 ```
 
 
 ```{r, message = F}
 # Read in taxation
-basel <- read_csv("1_Data/taxation.csv")
+basel <- read_csv("1_Data/sdg_hackathon_data.zip")
 
 basel
 
@@ -370,6 +340,10 @@ basel
 <td>Select rows</td>
 </tr>
 <tr>
+<td><mono>distinct()</mono></td>
+<td>Retain unique cases</td>
+</tr>
+<tr>
 <td><mono>left_join()</mono>, <mono>inner_join()</mono>, etc.</td>
 <td>Join data sets</td>
 </tr>
@@ -387,6 +361,39 @@ basel
 </table>
 
 
+
+]
+
+---
+
+```{r, echo = F, message=F}
+require(tibble)
+options(tibble.width = 35, tibble.max_extra_cols = 4, tibble.print_max = 5,
+        tibble.print_min = 8)
+```
+
+
+# `mutate()`
+
+.pull-left4[
+
+```{r, eval = FALSE}
+# Create new column
+TIBBLE %>% 
+  mutate(NAME1 = MUTATE_FUN(VAR1),
+         NAME2 = MUTATE_FUN(VAR2))
+```
+
+]
+
+.pull-right5[
+
+```{r}
+project_sdgs %>%
+  
+  # create year column
+  mutate(year = year(start_date))
+```
 
 ]
 
@@ -418,73 +425,11 @@ TIBBLE %>%
 .pull-right5[
 
 ```{r}
-basel %>%
+project_sdgs %>%
+  mutate(year = year(start_date)) %>% 
   
   # Select columns
-  select(year, quarter, income_mean)
-```
-
-]
-
-
-<!---
-
-# `slice()`
-
-.pull-left4[
-
-```{r, eval = F}
-# Slice using :
-TIBBLE %>%
-  slice(INDEX_START:INDEX_STOP)
-
-# Slice using vector  
-TIBBLE %>%
-  slice(c(INDEX1, INDEX2, ...))
-```
-
-
-]
-
-.pull-right5[
-
-```{r}
-basel %>%
-    select(year, quarter, income_mean) %>%
-
-  # Select rows 20 to 30
-  slice(20:30)
-```
-
-
-]
-
---->
-
----
-
-# `filter()`
-
-.pull-left4[
-
-```{r, eval = F}
-# Filter using logical comparisons
-TIBBLE %>%
-  filter(VAR1 == VAL1,
-         VAR2 > VAL2,
-         VAR3 < VAL3,
-         VAR4 == VAL4 | VAR5 < VAL5)
-```
-]
-
-.pull-right5[
-
-```{r}
-basel %>%
-    select(year, quarter, income_mean) %>%
-
-  # Select rows rows where year is 2017
-  filter(year == 2017)
+  select(project_number, year)
 ```
 
 ]
@@ -492,33 +437,42 @@ basel %>%
 
 ---
 
-# `arrange()`
+```{r, echo = F, message=F}
+require(tibble)
+options(tibble.width = 35, tibble.max_extra_cols = 10, tibble.print_max = 5,
+        tibble.print_min = 8)
+```
+
+
+# `distinct()`
 
 .pull-left4[
 
-```{r, echo = TRUE, eval = FALSE}
-# Sort ascending
-TIBBLE %>%
-  arrange(VAR1, VAR2)
+```{r, eval = FALSE}
+# Retain distinct cases
+TIBBLE %>% 
+  distinct()
 
-# Sort descending w/ desc()
-TIBBLE %>%
-  arrange(desc(VAR1), VAR2)
+# Retain distinct cases of variable
+TIBBLE %>% 
+  distinct(VAR1)
 ```
 
 ]
 
 .pull-right5[
+
 ```{r}
-basel %>%
-  select(year, quarter, income_mean) %>%
-  filter(year == 2017) %>% 
+project_sdgs %>%
+  mutate(year = year(start_date)) %>% 
+  select(project_number, year) %>% 
   
-  # Sort by income
-  arrange(income_mean)
+  # Retain distinct cases
+  distinct()
 ```
 
 ]
+
 
 ---
 
@@ -542,13 +496,13 @@ TIBBLE %>%
 .pull-right5[
 
 ```{r}
-basel %>%
-  filter(year == 2017) %>% 
- 
-  # Calculate averages in 2017
-  summarize(
-    income = mean(income_mean),
-    wealth = mean(wealth_mean))
+project_sdgs %>%
+  mutate(year = year(start_date)) %>% 
+  select(project_number, year) %>% 
+  distinct() %>% 
+  
+  # Calculate statistics 
+  summarize(n = n())
 ```
 
 
@@ -598,7 +552,7 @@ basel %>%
 ```{r, eval = F}
 # Create grouped summary variables
 TIBBLE %>%
-  group_by(GRUPPEN_VAR) %>%
+  group_by(GROUP_VAR) %>%
   summarise(
     NAME1 = SUMMARY_FUN(VAR1),
     NAME2 = SUMMARY_FUN(VAR2)
@@ -611,31 +565,32 @@ TIBBLE %>%
 .pull-right5[
 
 ```{r, message=F}
-basel %>%
+project_sdgs %>%
+  mutate(year = year(start_date)) %>% 
+  select(project_number, year) %>% 
+  distinct() %>% 
   
-  # Calculate averages for all years
+  # Calculate statistics 
   group_by(year) %>% 
-  summarize(
-    income = mean(income_mean),
-    wealth = mean(wealth_mean))
+  summarize(n = n())
 ```
 
 ]
 
 ---
 
-# `group_by()`
+# `arrange()`
 
 .pull-left4[
 
 ```{r, eval = F}
-# Create grouped summary variables
+# Sort ascending
 TIBBLE %>%
-  group_by(GRUPPEN_VAR) %>%
-  summarise(
-    NAME1 = SUMMARY_FUN(VAR1),
-    NAME2 = SUMMARY_FUN(VAR2)
-  )
+  arrange(VAR1, VAR2)
+
+# Sort descending w/ desc()
+TIBBLE %>%
+  arrange(desc(VAR1), VAR2)
 ```
 
 
@@ -644,24 +599,61 @@ TIBBLE %>%
 .pull-right5[
 
 ```{r, message=F}
-basel %>%
-  
-  # Calculate averages for all years
+project_sdgs %>%
+  mutate(year = year(start_date)) %>% 
+  select(project_number, year) %>% 
+  distinct() %>% 
   group_by(year) %>% 
-  summarize(
-    income = mean(income_mean),
-    wealth = mean(wealth_mean)) %>% 
-  arrange(income) 
+  summarize(n = n()) %>% 
+
+  # Descendig sort by year
+  arrange(desc(year))
+
 ```
 
 ]
+
+
+---
+
+# `filter()`
+
+.pull-left4[
+
+```{r, eval = F}
+# Filter using logical comparisons
+TIBBLE %>%
+  filter(VAR1 == VAL1,
+         VAR2 > VAL2,
+         VAR3 < VAL3,
+         VAR4 == VAL4 | VAR5 < VAL5)
+```
+]
+
+.pull-right5[
+
+```{r}
+project_sdgs %>%
+  mutate(year = year(start_date)) %>% 
+  select(project_number, year) %>% 
+  distinct() %>% 
+  group_by(year) %>% 
+  summarize(n = n()) %>% 
+  
+  # Filter out cases
+  filter(year > 2008 & year < 2022)
+  
+```
+
+]
+
 
 ---
 
 ```{r, echo = F, message=F}
 require(tibble)
-options(tibble.width = 35, tibble.max_extra_cols = 6, tibble.print_max = 6,
-        tibble.print_min = 8)
+options(tibble.width = 35, tibble.max_extra_cols = 3, tibble.print_max = 6,
+        tibble.print_min = 6)
 ```
 
 
@@ -674,6 +666,11 @@ options(tibble.width = 35, tibble.max_extra_cols = 6, tibble.print_max = 6,
 TIBBLE1 %>%
   left_join(TIBBLE2, 
             by = c("KEY1" = "KEY2"))
+
+# Join two tibbles
+TIBBLE1 %>%
+  right_join(TIBBLE2, 
+            by = c("KEY1" = "KEY2"))
 ```
 
 ]
@@ -683,19 +680,24 @@ TIBBLE1 %>%
 <br>
 
 ```{r,error=TRUE, message=F}
-basel %>%
+# Create year variable
+project_sdgs = project_sdgs %>%
+  mutate(year = year(start_date)) 
+
+# Count projects per year
+project_sdgs %>% 
+  select(project_number, year) %>% 
+  distinct() %>% 
   group_by(year) %>% 
-  summarize(
-    income = mean(income_mean),
-    wealth = mean(wealth_mean)) %>% 
-  
-  # join back to basel
-  right_join(basel)
+  summarize(n = n()) %>% 
+
+  # Join back to project_sdgs tibble
+  right_join(project_sdgs, by = "year")
 ```
 ]
 
 
----
+<!---
 
 ```{r, echo = F, message=F}
 require(tibble)
@@ -731,7 +733,6 @@ options(tibble.width = 35, tibble.max_extra_cols = 10, tibble.print_max = 5,
 
 ]
 
----
 
 # `pivot_longer()`
 
@@ -749,7 +750,7 @@ TIBBLE %>%
 
 .pull-right5[
 
-```{r}
+```{r, eval  =F}
 # wide to long
 basel %>% 
   select(year, quarter, 
@@ -760,9 +761,11 @@ basel %>%
 
 
 
+--->
+
 ---
 
 class: middle, center
 
-<h1><a href="https://therbootcamp.github.io/EDA_2020Sep/_sessions/Wrangling/Wrangling_practical.html">Practical</a></h1>
+<h1><a href="https://therbootcamp.github.io/SDGDataViz_2021Nov/_sessions/Wrangling/Wrangling_practical.html">Practical</a></h1>
 

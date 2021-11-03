@@ -1,23 +1,23 @@
 ---
-title: "Styling with ggplot2"
-author: "Data Visualization for Social Good<br>
+title: "ggplot basics II"
+author: "Intro to data visualization with ggplot2<br>
   <a href='https://correlaid.org/correlaid-x/switzerland/'>
-    CorrelAid Switzerland
+    The R Bootcamp
   </a>
   <br>
-  <a href='https://correlaidswitzerland.github.io/DataViz4Good/'>
+  <a href='https://therbootcamp.github.io/SDGDataViz_2021Nov/'>
     <i class='fas fa-clock' style='font-size:.9em;'></i>
   </a>&#8239; 
-  <a href='https://correlaid.org/correlaid-x/switzerland/'>
+  <a href='https://therbootcamp.github.io/'>
     <i class='fas fa-home' style='font-size:.9em;' ></i>
   </a>&#8239;
-  <a href='switzerland@correlaid.org'>
+  <a href='therbootcamp@gmail.com'>
     <i class='fas fa-envelope' style='font-size: .9em;'></i>
   </a>&#8239;
   <a href='https://www.linkedin.com/company/correlaidswiss/'>
     <i class='fab fa-linkedin' style='font-size: .9em;'></i>
   </a>"
-date: "February 2021"
+date: "November 2021"
 output:
   xaringan::moon_reader:
     css: ["default", "baselrbootcamp.css"]
@@ -27,6 +27,8 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       ratio: '16:9'
+editor_options: 
+  chunk_output_type: console
 ---
 
 layout: true
@@ -39,13 +41,13 @@ layout: true
     <a href="https://therbootcamp.github.io/">
       <span style="padding-left:82px"> 
         <font color="#7E7E7E">
-          https://correlaid.org/correlaid-x/switzerland/
+          therbootcamp.github.io
         </font>
       </span>
     </a>
-    <a href="https://correlaid.org/correlaid-x/switzerland/">
+    <a href="therbootcamp.github.io">
       <font color="#7E7E7E">
-      Data Visualization for Social Good | February 2021
+      Intro to data visualization with ggplot2 | Novemeber 2021
       </font>
     </a>
     </span>
@@ -65,18 +67,20 @@ options(digits = 4)
 ```
 
 ```{r, echo = FALSE ,message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(comment=NA, fig.width=6, fig.height=6, echo = TRUE, eval = TRUE, 
-                      message = FALSE, warning = FALSE, fig.align = 'center', dpi = 200)
+knitr::opts_chunk$set(comment=NA, fig.width=6, fig.height=6, 
+                      echo = TRUE, eval = TRUE, 
+                      message = FALSE, warning = FALSE, 
+                      fig.align = 'center', dpi = 200)
 library(tidyverse)
+library(lubridate)
 library(ggthemes)
-
-basel = read_csv('1_Data/taxation.csv')
+project_sdgs = read_csv('1_Data/sdg_hackathon_data.zip')
 
 ```
 
 .pull-left45[
 
-# Styling plots
+# Simple styling
 
 <ul>
   <li class="m1"><span>Save plot as <highm>gg</highm> object.</span></li>
@@ -84,7 +88,7 @@ basel = read_csv('1_Data/taxation.csv')
   <li class="m3"><span>Customize details using <highm>theme()</highm>.</span></li>
   <li class="m4"><span>Adjust dimensions using <highm>scale_*()</highm>.</span></li>
   <li class="m5"><span>Add annotion using <highm>labs()</highm>.</span></li>
-  <li class="m6"><span>Write your plot as a <highm>.pdf</highm> or <highm>.png</highm>.</span></li>
+  <li class="m6"><span>Write your plot as a <highm>.png</highm> or <highm>.png</highm>.</span></li>
 </ul>
 
 ]
@@ -96,20 +100,31 @@ basel = read_csv('1_Data/taxation.csv')
 <br>
 
 ```{r, fig.width=6,fig.height=7, echo=F}
-basel %>%
-  arrange(year, income_median) %>% 
-  mutate(quarter = as_factor(quarter)) %>% 
-  ggplot(aes(x = year, y = income_median, col = quarter)) +
-  geom_line() + geom_point() +
-  labs(x = "Year", y = "Median income",
-       title = "Inequality in Basel", 
-       subtitle = "Income development by quarter from 2001 to 2017",
-       caption = "Source: Open Data Basel Stadt") +
-  theme_minimal() +
-  theme(legend.position = "bottom",
+sdg_props = project_sdgs %>% 
+  mutate(year = year(start_date)) %>% 
+  group_by(system, sdg, year) %>% 
+  summarize(n = n()) %>% 
+  filter(year > 2008 & year < 2022,
+         system == "elsevier",
+         sdg %in% c("SDG-01", "SDG-06")) %>% 
+  group_by(system, year) %>% 
+  mutate(prop = n / sum(n))
+
+sdg_props %>% 
+  ggplot(aes(x = year, y = prop, col = sdg)) +
+  geom_point(size = 4) + 
+  geom_line(size = 1) + 
+  theme_minimal() + 
+  scale_color_colorblind(labels = c("No poverty (SDG 1)", "Clean water (SDG 6)")) + 
+  labs(x = "Year of project start",
+       y = "Proportion\nSDG 1 versus SDG 6",
+       title = "SDGs in Swiss Research Projects",
+       subtitle = "Relative proportion of projects addressing no poverty versus clean water and sanitation")+
+  theme(legend.position = c(.8, .5),
+        legend.background = element_rect(fill = "white", 
+                                         color = "white"),
         legend.title = element_blank(),
-        legend.text = element_text(size = 7)) +
-  scale_color_viridis_d()
+        legend.text = element_text(size = 10))
 ```
 ]
 
@@ -129,12 +144,10 @@ basel %>%
 
 ```{r}
 # store plot as object
-my_plot <- ggplot(basel, 
-                 aes(x = year, 
-                 y = income_median, 
-                 col = quarter)) +
-  geom_line() + 
-  geom_point()
+my_plot <- sdg_props %>% 
+  ggplot(aes(x = year, y = prop, col = sdg)) +
+  geom_point() + 
+  geom_line()
 ```
 
 ]
@@ -372,15 +385,14 @@ my_plot +
   </ul>
 </ul>
 
-<br>
 
 ```{r, eval = F}
 # Fixing the legend
 my_plot + 
   theme_minimal() +
   
-  # move legend to bottom
-  theme(legend.position = "bottom")
+  # move legend to top
+  theme(legend.position = "top")
 ```
 
 ]
@@ -394,7 +406,50 @@ my_plot +
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "top")
+```
+
+]
+
+
+---
+
+.pull-left45[
+
+# `theme()`
+
+<ul>
+  <li class="m1"><span>With <high>87 arguments</high> <mono>theme()</mono> permits specification of all aesthetic details.</span></li>
+  <li class="m2"><span>Makes uses of helper functions:</span></li>
+  <ul class="level">
+    <li><span><mono>element_rect()</mono> | for rectangles</span></li>
+    <li><span><mono>element_line()</mono> | for lines</span></li>
+    <li><span><mono>element_text()</mono> | for text</span></li>
+    <li><span><mono>element_blank()</mono> | for removals</span></li>
+  </ul>
+</ul>
+
+```{r, eval = F}
+# Fixing the legend
+my_plot + 
+  theme_minimal() +
+  
+  # move legend to top
+  theme(legend.position = c(.85, .5))
+```
+
+]
+
+
+.pull-right45[
+
+<br>
+
+```{r, fig.width=6,fig.height=7,echo = F}
+# Fixing the legend
+my_plot + 
+  theme_minimal() +
+  theme(legend.position = c(.85, .5))
 ```
 
 ]
@@ -416,13 +471,11 @@ my_plot +
   </ul>
 </ul>
 
-<br>
-
 ```{r, eval = F}
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = c(.85, .5),
         
         # remove legend title
         legend.title = element_blank())
@@ -439,7 +492,7 @@ my_plot +
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = c(.85, .5),
         legend.title = element_blank())
 ```
 
@@ -462,18 +515,65 @@ my_plot +
   </ul>
 </ul>
 
+```{r, eval = F}
+# Fixing the legend
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    
+    # increase legend text size
+    legend.text = element_text(size = 10))
+```
+
+]
+
+
+.pull-right45[
+
 <br>
+
+```{r, fig.width=6,fig.height=7,echo = F}
+# Fixing the legend
+my_plot + 
+  theme_minimal() +
+  theme(legend.position = c(.85, .5),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 10))
+```
+
+]
+
+---
+
+.pull-left45[
+
+# `theme()`
+
+<ul>
+  <li class="m1"><span>With <high>87 arguments</high> <mono>theme()</mono> permits specification of all aesthetic details.</span></li>
+  <li class="m2"><span>Makes uses of helper functions:</span></li>
+  <ul class="level">
+    <li><span><mono>element_rect()</mono> | for rectangles</span></li>
+    <li><span><mono>element_line()</mono> | for lines</span></li>
+    <li><span><mono>element_text()</mono> | for text</span></li>
+    <li><span><mono>element_blank()</mono> | for removals</span></li>
+  </ul>
+</ul>
 
 ```{r, eval = F}
 # Fixing the legend
 my_plot + 
   theme_minimal() +
   theme(
-    legend.position = "bottom",
+    legend.position = c(.85, .5),
     legend.title = element_blank(),
+    legend.text = element_text(size = 10),
     
-    # reduce legend text size
-    legend.text = element_text(size = 7))
+    # add white background
+    legend.background = 
+      element_rect(fill = "white"))
 ```
 
 ]
@@ -487,40 +587,44 @@ my_plot +
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = c(.85, .5),
         legend.title = element_blank(),
-        legend.text = element_text(size = 7))
+        legend.text = element_text(size = 10),
+        legend.background = element_rect(fill = "white"))
 ```
 
 ]
-
 
 ---
 
 .pull-left45[
 
-# `theme`
+# `theme()`
 
 <ul>
-  <li class="m1"><span><mono>theme</mono>s can be stored in an object.</span></li>
-  <li class="m2"><span><mono>theme</mono> objects are not functions.</span></li>
+  <li class="m1"><span>With <high>87 arguments</high> <mono>theme()</mono> permits specification of all aesthetic details.</span></li>
+  <li class="m2"><span>Makes uses of helper functions:</span></li>
+  <ul class="level">
+    <li><span><mono>element_rect()</mono> | for rectangles</span></li>
+    <li><span><mono>element_line()</mono> | for lines</span></li>
+    <li><span><mono>element_text()</mono> | for text</span></li>
+    <li><span><mono>element_blank()</mono> | for removals</span></li>
+  </ul>
 </ul>
 
-<br>
-
 ```{r, eval = F}
-# save my theme
-my_theme <- theme(
-  legend.position = "bottom",
-  legend.title = element_blank(),
-  legend.text = element_text(size = 7))
-
-
-# Add my theme
+# Fixing the legend
 my_plot + 
-  theme_minimal() + 
-  my_theme
-
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    
+    # add white background
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white"))
 ```
 
 ]
@@ -534,15 +638,14 @@ my_plot +
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = c(.85, .5),
         legend.title = element_blank(),
-        legend.text = element_text(size = 7))
+        legend.text = element_text(size = 10),
+        legend.background = element_rect(fill = "white",
+                                         color = "white"))
 ```
 
 ]
-
-
-
 
 
 ---
@@ -566,15 +669,69 @@ my_plot +
 
 .pull-right45[
 
+```{r, fig.width=6,fig.height=7,echo = F}
+# Adding color
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white"))
+```
+
+]
+
+---
+
+.pull-left45[
+
+# `scale_*()`
+
+<ul>
+  <li class="m1"><span>Various <mono>scale_*()</mono> permit specification of all <high>dimensions</high>, inclding axes, colors, sizes, etc.</span></li>
+</ul>
+
+```{r, eval = F}
+# Changing colors
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
+  
+  # color using own values
+  scale_color_manual(values = c("#A5D7D2", 
+                                "#2D373C"))
+```
+
+
+]
+
+.pull-right45[
+
 <br>
 
 ```{r, fig.width=6,fig.height=7,echo = F}
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = c(.85, .5),
         legend.title = element_blank(),
-        legend.text = element_text(size = 7))
+        legend.text = element_text(size = 10),
+        legend.background = 
+          element_rect(fill = "white",
+                       color = "white")) + 
+  
+  # color using own values
+  scale_color_manual(values = c("#A5D7D2", 
+                                "#2D373C"))
 ```
 
 ]
@@ -592,16 +749,19 @@ my_plot +
 <br>
 
 ```{r, eval = F}
-# Fixing the legend
+# Changing colors
 my_plot + 
   theme_minimal() +
   theme(
-    legend.position = "bottom",
+    legend.position = c(.85, .5),
     legend.title = element_blank(),
-    legend.text = element_text(size=7)) + 
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
   
-  # color using viridis
-  scale_color_viridis_d()
+  # color using colorblind
+  scale_color_colorblind()
 ```
 
 
@@ -615,10 +775,15 @@ my_plot +
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = c(.85, .5),
         legend.title = element_blank(),
-        legend.text = element_text(size = 7)) + 
-  scale_color_viridis_d()
+        legend.text = element_text(size = 10),
+        legend.background = 
+          element_rect(fill = "white",
+                       color = "white")) + 
+  
+  # color using colorblind
+  scale_color_colorblind()
 ```
 
 ]
@@ -627,30 +792,28 @@ my_plot +
 
 .pull-left45[
 
-# Wrangling
+# `scale_*()`
 
 <ul>
-  <li class="m1">Again, wrangling can help with plotting.</span></li>
-  <li class="m2">The order of discrete variables can be controlled using <highm>factors</highm>.</span></li>
+  <li class="m1"><span>Various <mono>scale_*()</mono> permit specification of all <high>dimensions</high>, inclding axes, colors, sizes, etc.</span></li>
 </ul>
 
 ```{r, eval = F}
-basel %>%
-  
-  # sort by income and factor quarter
-  arrange(year, income_median) %>% 
-  mutate(quarter = as_factor(quarter)) %>% 
-  
-  # original code
-  ggplot(aes(x = year, y = income_median, 
-             col = quarter)) +
-  geom_line() + geom_point() +
+# Changing colors
+my_plot + 
   theme_minimal() +
   theme(
-    legend.position = "bottom",
+    legend.position = c(.85, .5),
     legend.title = element_blank(),
-    legend.text = element_text(size=7)) + 
-  scale_color_viridis_d()
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
+  
+  # color using colorblind
+  scale_color_colorblind(
+    labels = c("No poverty (SDG 1)", 
+               "Clean water (SDG 6)"))
 ```
 
 
@@ -661,25 +824,109 @@ basel %>%
 <br>
 
 ```{r, fig.width=6,fig.height=7,echo = F}
-basel %>%
-  
-  # sort by income and factor quarter
-  arrange(year, income_median) %>% 
-  mutate(quarter = as_factor(quarter)) %>% 
-  
-  # original code
-  ggplot(aes(x = year, y = income_median, col = quarter)) +
-  geom_line() + geom_point() +
+# Fixing the legend
+my_plot + 
   theme_minimal() +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    legend.text = element_text(size=7)) + 
-  scale_color_viridis_d()
+  theme(legend.position = c(.85, .5),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 10),
+        legend.background = 
+          element_rect(fill = "white",
+                       color = "white")) +  
+  
+  # color using colorblind
+  scale_color_colorblind(
+    labels = c("No poverty (SDG 1)", 
+               "Clean water (SDG 6)"))
 ```
 
 ]
 
+---
+
+.pull-left45[
+
+# `geom` constants
+
+<ul>
+  <li class="m1"><span>Most aesthetics can be set to constants within the <mono>geom_*()</mono> outside of <mono>aes()</mono></span></li>
+</ul>
+
+<br>
+
+```{r}
+# store plot as object
+my_plot <- sdg_props %>% 
+  ggplot(aes(x = year, y = prop, col = sdg)) +
+  geom_point(size = 4) + 
+  geom_line()
+```
+
+]
+
+.pull-right45[
+
+<br>
+
+```{r, fig.width=6,fig.height=6, echo=T}
+my_plot 
+```
+
+]
+
+---
+
+.pull-left45[
+
+# `scale_*()`
+
+<ul>
+  <li class="m1"><span>Various <mono>scale_*()</mono> permit specification of all <high>dimensions</high>, inclding axes, colors, sizes, etc.</span></li>
+</ul>
+
+```{r, eval = F}
+# Constants have changed
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
+  
+  # color using colorblind
+  scale_color_colorblind(
+    labels = c("No poverty (SDG 1)", 
+               "Clean water (SDG 6)"))
+```
+
+
+]
+
+.pull-right45[
+
+<br>
+
+```{r, fig.width=6,fig.height=7,echo = F}
+# Fixing the legend
+my_plot + 
+  theme_minimal() +
+  theme(legend.position = c(.85, .5),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 10),
+        legend.background = 
+          element_rect(fill = "white",
+                       color = "white")) +  
+  
+  # color using colorblind
+  scale_color_colorblind(
+    labels = c("No poverty (SDG 1)", 
+               "Clean water (SDG 6)"))
+```
+
+]
 
 ---
 
@@ -698,32 +945,25 @@ basel %>%
 </ul>
 
 ```{r, fig.width=6,fig.height=7,echo = F}
-my_plot = basel %>%
-  
-  # sort by income and factor quarter
-  arrange(year, income_median) %>% 
-  mutate(quarter = as_factor(quarter)) %>% 
-  
-  # original code
-  ggplot(aes(x = year, y = income_median, col = quarter)) +
-  geom_line() + geom_point() +
+my_plot = my_plot + 
   theme_minimal() +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    legend.text = element_text(size=7)) + 
-  scale_color_viridis_d()
+  theme(legend.position = c(.85, .5),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 10),
+        legend.background = element_rect(fill = "white",
+                                         color = "white")) + 
+  scale_color_colorblind(labels = c("No poverty (SDG 1)", 
+                                    "Clean water (SDG 6)"))
 ```
 
 <br>
 
 ```{r, echo = TRUE, eval = FALSE}
 my_plot +
-  labs(x = "Year",
-       y = "Median income",
-       title = "Inequality in Basel",
-       subtitle = "Income development...",
-       caption = "Source: Open Data...")
+  labs(x = "Year of project start",
+       y = "Relative proportion",
+       title = "SDGs in Swiss Research...",
+       subtitle = "Relative proportion of...")
 ```
 
 ]
@@ -735,10 +975,11 @@ my_plot +
 
 ```{r, fig.width=6,fig.height=7,echo = F}
 my_plot +
-  labs(x = "Year", y = "Median income",
-       title = "Inequality in Basel", 
-       subtitle = "Income development by quarter from 2001 to 2017",
-       caption = "Source: Open Data Basel Stadt")
+   labs(x = "Year of project start",
+       y = "Relative proportion",
+       title = "SDGs in Swiss Research Projects",
+       subtitle = "Relative proportion of projects addressing no poverty versus clean water and sanitation")
+
 ```
 
 ]
@@ -784,7 +1025,8 @@ ggsave(filename = "my_plot.png",
        device = "png",
        path = "3_Figures",
        width = 7, 
-       height = 7)
+       height = 7,
+       dpi = 300)
 ```
 
 ]
@@ -794,4 +1036,4 @@ ggsave(filename = "my_plot.png",
 
 class: middle, center
 
-<h1><a href="https://correlaidswitzerland.github.io/DataViz4Good/">Schedule</a></h1>
+<h1><a href="therbootcamp.github.io/SDGDataViz_2021Nov/">Schedule</a></h1>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Styling with ggplot2</title>
+    <title>ggplot basics II</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Data Visualization for Social Good   CorrelAid Switzerland                  " />
+    <meta name="author" content="Intro to data visualization with ggplot2   The R Bootcamp                  " />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="baselrbootcamp.css" type="text/css" />
@@ -12,9 +12,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Styling with ggplot2
-### Data Visualization for Social Good<br> <a href='https://correlaid.org/correlaid-x/switzerland/'> CorrelAid Switzerland </a> <br> <a href='https://correlaidswitzerland.github.io/DataViz4Good/'> <i class='fas fa-clock' style='font-size:.9em;'></i> </a>  <a href='https://correlaid.org/correlaid-x/switzerland/'> <i class='fas fa-home' style='font-size:.9em;' ></i> </a>  <a href='switzerland@correlaid.org'> <i class='fas fa-envelope' style='font-size: .9em;'></i> </a>  <a href='https://www.linkedin.com/company/correlaidswiss/'> <i class='fab fa-linkedin' style='font-size: .9em;'></i> </a>
-### February 2021
+# ggplot basics II
+### Intro to data visualization with ggplot2<br> <a href='https://correlaid.org/correlaid-x/switzerland/'> The R Bootcamp </a> <br> <a href='https://therbootcamp.github.io/SDGDataViz_2021Nov/'> <i class='fas fa-clock' style='font-size:.9em;'></i> </a>  <a href='https://therbootcamp.github.io/'> <i class='fas fa-home' style='font-size:.9em;' ></i> </a>  <a href='therbootcamp@gmail.com'> <i class='fas fa-envelope' style='font-size: .9em;'></i> </a>  <a href='https://www.linkedin.com/company/correlaidswiss/'> <i class='fab fa-linkedin' style='font-size: .9em;'></i> </a>
+### November 2021
 
 ---
 
@@ -29,13 +29,13 @@ layout: true
     &lt;a href="https://therbootcamp.github.io/"&gt;
       &lt;span style="padding-left:82px"&gt; 
         &lt;font color="#7E7E7E"&gt;
-          https://correlaid.org/correlaid-x/switzerland/
+          therbootcamp.github.io
         &lt;/font&gt;
       &lt;/span&gt;
     &lt;/a&gt;
-    &lt;a href="https://correlaid.org/correlaid-x/switzerland/"&gt;
+    &lt;a href="therbootcamp.github.io"&gt;
       &lt;font color="#7E7E7E"&gt;
-      Data Visualization for Social Good | February 2021
+      Intro to data visualization with ggplot2 | Novemeber 2021
       &lt;/font&gt;
     &lt;/a&gt;
     &lt;/span&gt;
@@ -49,7 +49,7 @@ layout: true
 
 .pull-left45[
 
-# Styling plots
+# Simple styling
 
 &lt;ul&gt;
   &lt;li class="m1"&gt;&lt;span&gt;Save plot as &lt;highm&gt;gg&lt;/highm&gt; object.&lt;/span&gt;&lt;/li&gt;
@@ -57,7 +57,7 @@ layout: true
   &lt;li class="m3"&gt;&lt;span&gt;Customize details using &lt;highm&gt;theme()&lt;/highm&gt;.&lt;/span&gt;&lt;/li&gt;
   &lt;li class="m4"&gt;&lt;span&gt;Adjust dimensions using &lt;highm&gt;scale_*()&lt;/highm&gt;.&lt;/span&gt;&lt;/li&gt;
   &lt;li class="m5"&gt;&lt;span&gt;Add annotion using &lt;highm&gt;labs()&lt;/highm&gt;.&lt;/span&gt;&lt;/li&gt;
-  &lt;li class="m6"&gt;&lt;span&gt;Write your plot as a &lt;highm&gt;.pdf&lt;/highm&gt; or &lt;highm&gt;.png&lt;/highm&gt;.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m6"&gt;&lt;span&gt;Write your plot as a &lt;highm&gt;.png&lt;/highm&gt; or &lt;highm&gt;.png&lt;/highm&gt;.&lt;/span&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 ]
@@ -88,12 +88,10 @@ layout: true
 
 ```r
 # store plot as object
-my_plot &lt;- ggplot(basel, 
-                 aes(x = year, 
-                 y = income_median, 
-                 col = quarter)) +
-  geom_line() + 
-  geom_point()
+my_plot &lt;- sdg_props %&gt;% 
+  ggplot(aes(x = year, y = prop, col = sdg)) +
+  geom_point() + 
+  geom_line()
 ```
 
 ]
@@ -350,7 +348,6 @@ my_plot +
   &lt;/ul&gt;
 &lt;/ul&gt;
 
-&lt;br&gt;
 
 
 ```r
@@ -358,8 +355,8 @@ my_plot +
 my_plot + 
   theme_minimal() +
   
-  # move legend to bottom
-  theme(legend.position = "bottom")
+  # move legend to top
+  theme(legend.position = "top")
 ```
 
 ]
@@ -372,6 +369,7 @@ my_plot +
 &lt;img src="PlottingII_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
+
 
 ---
 
@@ -390,17 +388,14 @@ my_plot +
   &lt;/ul&gt;
 &lt;/ul&gt;
 
-&lt;br&gt;
-
 
 ```r
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(legend.position = "bottom",
-        
-        # remove legend title
-        legend.title = element_blank())
+  
+  # move legend to top
+  theme(legend.position = c(.85, .5))
 ```
 
 ]
@@ -431,19 +426,15 @@ my_plot +
   &lt;/ul&gt;
 &lt;/ul&gt;
 
-&lt;br&gt;
-
 
 ```r
 # Fixing the legend
 my_plot + 
   theme_minimal() +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    
-    # reduce legend text size
-    legend.text = element_text(size = 7))
+  theme(legend.position = c(.85, .5),
+        
+        # remove legend title
+        legend.title = element_blank())
 ```
 
 ]
@@ -457,33 +448,34 @@ my_plot +
 
 ]
 
-
 ---
 
 .pull-left45[
 
-# `theme`
+# `theme()`
 
 &lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;theme&lt;/mono&gt;s can be stored in an object.&lt;/span&gt;&lt;/li&gt;
-  &lt;li class="m2"&gt;&lt;span&gt;&lt;mono&gt;theme&lt;/mono&gt; objects are not functions.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;With &lt;high&gt;87 arguments&lt;/high&gt; &lt;mono&gt;theme()&lt;/mono&gt; permits specification of all aesthetic details.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m2"&gt;&lt;span&gt;Makes uses of helper functions:&lt;/span&gt;&lt;/li&gt;
+  &lt;ul class="level"&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_rect()&lt;/mono&gt; | for rectangles&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_line()&lt;/mono&gt; | for lines&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_text()&lt;/mono&gt; | for text&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_blank()&lt;/mono&gt; | for removals&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
 &lt;/ul&gt;
-
-&lt;br&gt;
 
 
 ```r
-# save my theme
-my_theme &lt;- theme(
-  legend.position = "bottom",
-  legend.title = element_blank(),
-  legend.text = element_text(size = 7))
-
-
-# Add my theme
+# Fixing the legend
 my_plot + 
-  theme_minimal() + 
-  my_theme
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    
+    # increase legend text size
+    legend.text = element_text(size = 10))
 ```
 
 ]
@@ -497,8 +489,92 @@ my_plot +
 
 ]
 
+---
+
+.pull-left45[
+
+# `theme()`
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;With &lt;high&gt;87 arguments&lt;/high&gt; &lt;mono&gt;theme()&lt;/mono&gt; permits specification of all aesthetic details.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m2"&gt;&lt;span&gt;Makes uses of helper functions:&lt;/span&gt;&lt;/li&gt;
+  &lt;ul class="level"&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_rect()&lt;/mono&gt; | for rectangles&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_line()&lt;/mono&gt; | for lines&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_text()&lt;/mono&gt; | for text&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_blank()&lt;/mono&gt; | for removals&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
 
 
+```r
+# Fixing the legend
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    
+    # add white background
+    legend.background = 
+      element_rect(fill = "white"))
+```
+
+]
+
+
+.pull-right45[
+
+&lt;br&gt;
+
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+.pull-left45[
+
+# `theme()`
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;With &lt;high&gt;87 arguments&lt;/high&gt; &lt;mono&gt;theme()&lt;/mono&gt; permits specification of all aesthetic details.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m2"&gt;&lt;span&gt;Makes uses of helper functions:&lt;/span&gt;&lt;/li&gt;
+  &lt;ul class="level"&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_rect()&lt;/mono&gt; | for rectangles&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_line()&lt;/mono&gt; | for lines&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_text()&lt;/mono&gt; | for text&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;element_blank()&lt;/mono&gt; | for removals&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+
+```r
+# Fixing the legend
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    
+    # add white background
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white"))
+```
+
+]
+
+
+.pull-right45[
+
+&lt;br&gt;
+
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+
+]
 
 
 ---
@@ -522,9 +598,46 @@ my_plot +
 
 .pull-right45[
 
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+.pull-left45[
+
+# `scale_*()`
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;Various &lt;mono&gt;scale_*()&lt;/mono&gt; permit specification of all &lt;high&gt;dimensions&lt;/high&gt;, inclding axes, colors, sizes, etc.&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+```r
+# Changing colors
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
+  
+  # color using own values
+  scale_color_manual(values = c("#A5D7D2", 
+                                "#2D373C"))
+```
+
+
+]
+
+.pull-right45[
+
 &lt;br&gt;
 
-&lt;img src="PlottingII_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -542,16 +655,19 @@ my_plot +
 
 
 ```r
-# Fixing the legend
+# Changing colors
 my_plot + 
   theme_minimal() +
   theme(
-    legend.position = "bottom",
+    legend.position = c(.85, .5),
     legend.title = element_blank(),
-    legend.text = element_text(size=7)) + 
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
   
-  # color using viridis
-  scale_color_viridis_d()
+  # color using colorblind
+  scale_color_colorblind()
 ```
 
 
@@ -561,7 +677,7 @@ my_plot +
 
 &lt;br&gt;
 
-&lt;img src="PlottingII_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -569,31 +685,29 @@ my_plot +
 
 .pull-left45[
 
-# Wrangling
+# `scale_*()`
 
 &lt;ul&gt;
-  &lt;li class="m1"&gt;Again, wrangling can help with plotting.&lt;/span&gt;&lt;/li&gt;
-  &lt;li class="m2"&gt;The order of discrete variables can be controlled using &lt;highm&gt;factors&lt;/highm&gt;.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;Various &lt;mono&gt;scale_*()&lt;/mono&gt; permit specification of all &lt;high&gt;dimensions&lt;/high&gt;, inclding axes, colors, sizes, etc.&lt;/span&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 
 ```r
-basel %&gt;%
-  
-  # sort by income and factor quarter
-  arrange(year, income_median) %&gt;% 
-  mutate(quarter = as_factor(quarter)) %&gt;% 
-  
-  # original code
-  ggplot(aes(x = year, y = income_median, 
-             col = quarter)) +
-  geom_line() + geom_point() +
+# Changing colors
+my_plot + 
   theme_minimal() +
   theme(
-    legend.position = "bottom",
+    legend.position = c(.85, .5),
     legend.title = element_blank(),
-    legend.text = element_text(size=7)) + 
-  scale_color_viridis_d()
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
+  
+  # color using colorblind
+  scale_color_colorblind(
+    labels = c("No poverty (SDG 1)", 
+               "Clean water (SDG 6)"))
 ```
 
 
@@ -603,10 +717,85 @@ basel %&gt;%
 
 &lt;br&gt;
 
-&lt;img src="PlottingII_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
+---
+
+.pull-left45[
+
+# `geom` constants
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;Most aesthetics can be set to constants within the &lt;mono&gt;geom_*()&lt;/mono&gt; outside of &lt;mono&gt;aes()&lt;/mono&gt;&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;br&gt;
+
+
+```r
+# store plot as object
+my_plot &lt;- sdg_props %&gt;% 
+  ggplot(aes(x = year, y = prop, col = sdg)) +
+  geom_point(size = 4) + 
+  geom_line()
+```
+
+]
+
+.pull-right45[
+
+&lt;br&gt;
+
+
+```r
+my_plot 
+```
+
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+.pull-left45[
+
+# `scale_*()`
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;Various &lt;mono&gt;scale_*()&lt;/mono&gt; permit specification of all &lt;high&gt;dimensions&lt;/high&gt;, inclding axes, colors, sizes, etc.&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+```r
+# Constants have changed
+my_plot + 
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .5),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    legend.background = 
+      element_rect(fill = "white",
+                   color = "white")) + 
+  
+  # color using colorblind
+  scale_color_colorblind(
+    labels = c("No poverty (SDG 1)", 
+               "Clean water (SDG 6)"))
+```
+
+
+]
+
+.pull-right45[
+
+&lt;br&gt;
+
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /&gt;
+
+]
 
 ---
 
@@ -631,11 +820,10 @@ basel %&gt;%
 
 ```r
 my_plot +
-  labs(x = "Year",
-       y = "Median income",
-       title = "Inequality in Basel",
-       subtitle = "Income development...",
-       caption = "Source: Open Data...")
+  labs(x = "Year of project start",
+       y = "Relative proportion",
+       title = "SDGs in Swiss Research...",
+       subtitle = "Relative proportion of...")
 ```
 
 ]
@@ -645,7 +833,7 @@ my_plot +
 
 &lt;br&gt;
 
-&lt;img src="PlottingII_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="PlottingII_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -691,7 +879,8 @@ ggsave(filename = "my_plot.png",
        device = "png",
        path = "3_Figures",
        width = 7, 
-       height = 7)
+       height = 7,
+       dpi = 300)
 ```
 
 ]
@@ -701,7 +890,7 @@ ggsave(filename = "my_plot.png",
 
 class: middle, center
 
-&lt;h1&gt;&lt;a href="https://correlaidswitzerland.github.io/DataViz4Good/"&gt;Schedule&lt;/a&gt;&lt;/h1&gt;
+&lt;h1&gt;&lt;a href="therbootcamp.github.io/SDGDataViz_2021Nov/"&gt;Schedule&lt;/a&gt;&lt;/h1&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

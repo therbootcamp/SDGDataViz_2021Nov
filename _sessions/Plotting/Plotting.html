@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Intro to ggplot2</title>
+    <title>ggplot basics</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Data Visualization for Social Good   CorrelAid Switzerland                  " />
+    <meta name="author" content="Intro to data visualization with ggplot2   The R Bootcamp                  " />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="baselrbootcamp.css" type="text/css" />
@@ -12,9 +12,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Intro to ggplot2
-### Data Visualization for Social Good<br> <a href='https://correlaid.org/correlaid-x/switzerland/'> CorrelAid Switzerland </a> <br> <a href='https://correlaidswitzerland.github.io/DataViz4Good/'> <i class='fas fa-clock' style='font-size:.9em;'></i> </a>  <a href='https://correlaid.org/correlaid-x/switzerland/'> <i class='fas fa-home' style='font-size:.9em;' ></i> </a>  <a href='switzerland@correlaid.org'> <i class='fas fa-envelope' style='font-size: .9em;'></i> </a>  <a href='https://www.linkedin.com/company/correlaidswiss/'> <i class='fab fa-linkedin' style='font-size: .9em;'></i> </a>
-### February 2021
+# ggplot basics
+### Intro to data visualization with ggplot2<br> <a href='https://correlaid.org/correlaid-x/switzerland/'> The R Bootcamp </a> <br> <a href='https://therbootcamp.github.io/SDGDataViz_2021Nov/'> <i class='fas fa-clock' style='font-size:.9em;'></i> </a>  <a href='https://therbootcamp.github.io/'> <i class='fas fa-home' style='font-size:.9em;' ></i> </a>  <a href='therbootcamp@gmail.com'> <i class='fas fa-envelope' style='font-size: .9em;'></i> </a>  <a href='https://www.linkedin.com/company/correlaidswiss/'> <i class='fab fa-linkedin' style='font-size: .9em;'></i> </a>
+### November 2021
 
 ---
 
@@ -29,22 +29,19 @@ layout: true
     &lt;a href="https://therbootcamp.github.io/"&gt;
       &lt;span style="padding-left:82px"&gt; 
         &lt;font color="#7E7E7E"&gt;
-          https://correlaid.org/correlaid-x/switzerland/
+          therbootcamp.github.io
         &lt;/font&gt;
       &lt;/span&gt;
     &lt;/a&gt;
-    &lt;a href="https://correlaid.org/correlaid-x/switzerland/"&gt;
+    &lt;a href="therbootcamp.github.io"&gt;
       &lt;font color="#7E7E7E"&gt;
-      Data Visualization for Social Good | February 2021
+      Intro to data visualization with ggplot2 | Novemeber 2021
       &lt;/font&gt;
     &lt;/a&gt;
     &lt;/span&gt;
   &lt;/div&gt; 
 
 ---
-
-
-
 
 
 
@@ -100,7 +97,65 @@ layout: true
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Wrangling
+
+.pull-left45[
+
+
+```r
+sdg_props = project_sdgs %&gt;% 
+  
+  # create year variable
+  mutate(year = year(start_date)) %&gt;% 
+  
+  # count projects by system, sdg, and year
+  group_by(system, sdg, year) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  
+  # filter year, system 
+  filter(year &gt; 2008 &amp; year &lt; 2022,
+         system == "elsevier",
+         sdg %in% c("SDG-01", "SDG-06")) %&gt;% 
+    
+  # normalize within year
+  group_by(year) %&gt;% 
+  mutate(prop = n / sum(n))
+```
+
+]
+
+
+.pull-right45[
+
+
+
+
+
+```r
+sdg_props
+```
+
+```
+# A tibble: 26 × 5
+# Groups:   year [13]
+  system   sdg     year     n  prop
+  &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1 elsevier SDG-01  2009    14 0.609
+2 elsevier SDG-01  2010    17 0.586
+3 elsevier SDG-01  2011    24 0.686
+4 elsevier SDG-01  2012    24 0.585
+5 elsevier SDG-01  2013    29 0.725
+6 elsevier SDG-01  2014    21 0.6  
+7 elsevier SDG-01  2015    26 0.765
+8 elsevier SDG-01  2016    34 0.829
+# … with 18 more rows
+```
 
 ]
 
@@ -123,16 +178,6 @@ layout: true
   &lt;/span&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-
-```r
-# averages per year
-basel_avg &lt;- basel %&gt;% 
-  group_by(year) %&gt;% 
-  summarize(
-    income_mean = mean(income_mean),
-    income_median = mean(income_median))
-```
-
 ]
 
 
@@ -140,10 +185,10 @@ basel_avg &lt;- basel %&gt;%
 
 
 ```r
-ggplot(data = basel_avg)
+ggplot(data = sdg_props)
 ```
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -156,7 +201,7 @@ ggplot(data = basel_avg)
 .pull-left45[
 
 &lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;aes()&lt;/mono&gt; helps define the structure of the &lt;highm&gt;mapping&lt;/highm&gt; Argument.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;aes()&lt;/mono&gt; helps define the structure of the &lt;highm&gt;mapping&lt;/highm&gt; argument.&lt;/span&gt;&lt;/li&gt;
   &lt;li class="m2"&gt;&lt;span&gt;Key arguments:&lt;/span&gt;&lt;/li&gt;
   &lt;ul class="level"&gt;
     &lt;li&gt;&lt;span&gt;&lt;mono&gt;x, y&lt;/mono&gt; | Defines axes&lt;/span&gt;&lt;/li&gt;
@@ -167,18 +212,21 @@ ggplot(data = basel_avg)
   &lt;/ul&gt;
 &lt;/ul&gt;
 
+&lt;br&gt;
+
+
+```r
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop))
+```
+
+
 ]
 
 .pull-right45[
 
-
-```r
-ggplot(data = basel_avg,
-       mapping = aes(x = year, 
-                     y = income_mean))
-```
-
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -197,9 +245,9 @@ ggplot(data = basel_avg,
 
 
 ```r
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop)) +
   
   # Show as points
   geom_point() 
@@ -211,8 +259,47 @@ ggplot(data = basel_avg,
 .pull-right45[
 
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
+
+]
+
+---
+
+# `aes()`
+
+
+.pull-left45[
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;aes()&lt;/mono&gt; helps define the structure of the &lt;highm&gt;mapping&lt;/highm&gt; argument.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m2"&gt;&lt;span&gt;Key arguments:&lt;/span&gt;&lt;/li&gt;
+  &lt;ul class="level"&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;x, y&lt;/mono&gt; | Defines axes&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;color,fill&lt;/mono&gt; | Defines colors&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;alpha&lt;/mono&gt; | Defines opacity&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;size&lt;/mono&gt; | Defines sizes&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;shape&lt;/mono&gt; | Defines shapes (e.g., circles or squares)&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+
+```r
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     
+                     # add color aesthetic
+                     col = sdg)) +
+  geom_point() 
+```
+
+
+]
+
+.pull-right45[
+
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -236,11 +323,24 @@ ggplot(data = basel_avg,
   &lt;/ul&gt;
 &lt;/ul&gt;
 
+
+
+```r
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     col = sdg)) +
+  
+  # Show as points
+  geom_point() 
+```
+
+
 ]
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -258,9 +358,10 @@ ggplot(data = basel_avg,
 &lt;br&gt;
 
 ```r
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as lines
   geom_line() 
@@ -271,7 +372,7 @@ ggplot(data = basel_avg,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -289,9 +390,10 @@ ggplot(data = basel_avg,
 &lt;br&gt;
 
 ```r
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as smoothed curve
   geom_smooth() 
@@ -302,7 +404,7 @@ ggplot(data = basel_avg,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -321,9 +423,10 @@ ggplot(data = basel_avg,
 &lt;br&gt;
 
 ```r
-ggplot(data = basel_avg,
+ggplot(data = sdg_props,
        mapping = aes(x = year, 
-                     y = income_mean)) +
+                     y = prop,
+                     col = sdg)) +
   
   # Show as points and lines
   geom_point() +
@@ -335,162 +438,9 @@ ggplot(data = basel_avg,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
-
----
-
-# `geom_*()`
-
-.pull-left45[
-
-&lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;Most &lt;mono&gt;geom_*()&lt;/mono&gt; functions allow specification of &lt;highm&gt;data&lt;/highm&gt; and &lt;highm&gt;mapping&lt;/highm&gt;.&lt;/span&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;br&gt;
-
-```r
-ggplot(data = basel_avg,
-       mapping = aes(x = year, 
-                     y = income_mean)) +
-  geom_point() +
-  geom_line() +
-  
-  # Add points and lines for median
-  geom_point(aes(y = income_median)) +
-  geom_line(aes(y = income_median))
-```
-
-
-]
-
-.pull-right45[
-
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
----
-
-# Wrangling
-
-.pull-left45[
-
-&lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;Oftentimes, creating the desired plot requires appropriate data wrangling.&lt;/span&gt;&lt;/li&gt;
-  &lt;li class="m2"&gt;&lt;span&gt;&lt;mono&gt;ggplot&lt;/mono&gt; works best with &lt;high&gt;long data formats&lt;/high&gt;.&lt;/span&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;br&gt;
-
-```r
-# pivot to long format
-basel_avg_long &lt;- basel_avg %&gt;% 
-  pivot_longer(-year, 
-               names_to = "statistic", 
-               values_to = "income")
-```
-
-
-]
-
-.pull-right45[
-
-
-```r
-basel_avg_long
-```
-
-```
-# A tibble: 34 x 3
-    year statistic     income
-   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
- 1  2001 income_mean   63027.
- 2  2001 income_median 49516.
- 3  2002 income_mean   63555.
- 4  2002 income_median 50066.
- 5  2003 income_mean   63083.
- 6  2003 income_median 49717.
- 7  2004 income_mean   62298.
- 8  2004 income_median 49467.
- 9  2005 income_mean   63133.
-10  2005 income_median 49192.
-# … with 24 more rows
-```
-
-]
-
----
-
-# &lt;mono&gt;aes()&lt;/mono&gt;
-
-.pull-left45[
-
-&lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;aes()&lt;/mono&gt; helps define the structure of the &lt;highm&gt;mapping&lt;/highm&gt; Argument.&lt;/span&gt;&lt;/li&gt;
-
-&lt;br&gt;
-
-```r
-# use basel_avg_long
-ggplot(data = basel_avg_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-                     
-         # add color dimension
-         col = statistic)) +
-  geom_point() +
-  geom_line() 
-```
-
-
-
-]
-
-.pull-right45[
-
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
----
-
-# &lt;mono&gt;aes()&lt;/mono&gt;
-
-.pull-left45[
-
-&lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;aes()&lt;/mono&gt; helps define the structure of the &lt;highm&gt;mapping&lt;/highm&gt; Argument.&lt;/span&gt;&lt;/li&gt;
-
-&lt;br&gt;
-
-```r
-# use basel_avg_long
-ggplot(data = basel_avg_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-                     
-         # add shape dimension
-         shape = statistic)) +
-  geom_point() +
-  geom_line() 
-```
-
-
-
-]
-
-.pull-right45[
-
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-
 
 ---
 
@@ -509,19 +459,66 @@ ggplot(data = basel_avg_long,
 
 &lt;br&gt;
 
+]
+
+.pull-right45[
+
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Wrangling
+
+.pull-left45[
+
+
 
 ```r
-basel_long &lt;- basel %&gt;% 
-  pivot_longer(c(income_mean, income_median),
-               names_to = 'statistic',
-               values_to = 'income')
+sdg_props = project_sdgs %&gt;% 
+  mutate(year = year(start_date)) %&gt;% 
+  group_by(system, sdg, year) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  
+  # no filtering of systems
+  filter(year &gt; 2008 &amp; year &lt; 2022,
+         sdg %in% c("SDG-01", "SDG-06")) %&gt;% 
+  
+  # group by year and system
+  group_by(year, system) %&gt;%
+  mutate(prop = n / sum(n))
 ```
 
 ]
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+
+```
+# A tibble: 130 × 5
+# Groups:   year, system [65]
+   system sdg     year     n  prop
+   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+ 1 aurora SDG-01  2009     8 0.4  
+ 2 aurora SDG-01  2010     4 0.222
+ 3 aurora SDG-01  2011    11 0.407
+ 4 aurora SDG-01  2012    17 0.586
+ 5 aurora SDG-01  2013    16 0.5  
+ 6 aurora SDG-01  2014    24 0.632
+ 7 aurora SDG-01  2015    15 0.577
+ 8 aurora SDG-01  2016    13 0.542
+ 9 aurora SDG-01  2017    16 0.516
+10 aurora SDG-01  2018    25 0.658
+11 aurora SDG-01  2019    21 0.677
+12 aurora SDG-01  2020    16 0.533
+13 aurora SDG-01  2021    13 0.565
+14 aurora SDG-06  2009    12 0.6  
+# … with 116 more rows
+```
 
 ]
 
@@ -539,17 +536,15 @@ basel_long &lt;- basel %&gt;%
 
 
 ```r
-# use basel_long
-ggplot(data = basel_long,
-       mapping = aes(
-         x = year, 
-         y = income,
-         col = statistic)) +
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop,
+                     col = sdg)) +
   geom_point() +
   geom_line() +
   
-  # facet by quarter
-  facet_wrap(~quarter)
+  # facet by system
+  facet_wrap(~system)
 ```
 
 ]
@@ -558,7 +553,7 @@ ggplot(data = basel_long,
 
 &lt;br&gt;&lt;br&gt;&lt;br&gt;
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -567,7 +562,7 @@ ggplot(data = basel_long,
 
 class: middle, center
 
-&lt;h1&gt;&lt;a href="https://correlaidswitzerland.github.io/DataViz4Good/"&gt;Schedule&lt;/a&gt;&lt;/h1&gt;
+&lt;h1&gt;&lt;a href="therbootcamp.github.io/SDGDataViz_2021Nov/"&gt;Schedule&lt;/a&gt;&lt;/h1&gt;
 
 
 

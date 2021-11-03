@@ -3,7 +3,6 @@
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 @import url(https://fonts.googleapis.com/icon?family=Montserrat:100,400);
 
-
 :root {
   font-size: 62.5%;
   body {
@@ -15,14 +14,14 @@
 
 
 #header {
- background: url("https://raw.githubusercontent.com//CorrelAidSwitzerland/DataViz4Good/main/src/img/correlaidbg.jpeg");
+ background: url("https://raw.githubusercontent.com/therbootcamp/I2R_2020Aug/master/src/img/background_narrow.jpeg");
  background-size: cover;
  color: white;
- padding: 30px 10% 70px 14%;
+ padding: 30px 22% 70px 22%;
  margin-left: calc(-50vw + 50%);
  margin-right: calc(-50vw + 50%);
  margin-top: -20px;
- font-family: Montserrat;
+ font-family: 'Montserrat';
 
 }
 
@@ -43,7 +42,7 @@
 #header i, #header a {
   font-size: 2rem;
   text-decoration: none;
-  padding-right: 2px;
+  padding-right: 3px;
 }
 
 @media (min-width: 480px) {
@@ -52,9 +51,6 @@
 
 @media (min-width: 768px) {
   #header h1 {font-size: 5.6rem;}
-  .logo {
-    height:140px;
-  }
 }
 
 @media (min-width: 992px) {
@@ -90,13 +86,12 @@ h2 {
   margin-bottom: 20px;
   }
 
-.my-table th {
+.my-table .time {
   font-size:.7em;
   font-weight:100;
-  width: 100;
   text-align: right;
   vertical-align: top;
-  padding: 6px 6px 6px 0px;
+  padding: 6px 0px 6px 0px;
   }
 
 .my-table td {
@@ -105,7 +100,10 @@ h2 {
   padding: 6px 0px 6px 6px;
   border-radius:8px;
   height: 40px;
-  min-width: 260px;
+  }
+
+.my-table img {
+  height: 20px;
 }
 
 .td-special {
@@ -116,7 +114,7 @@ h2 {
 .td-special-blue {
   font-weight:100;
   font-style: italic;
-  background-color:#475B98;
+  background-color:#7FBDF7;
   color:#ffffff;
 }
 
@@ -128,7 +126,7 @@ h2 {
 }
 
 .td-red {
-  background-color:#D25063;
+  background-color:#F8716F;
   color:#ffffff;
 }
 
@@ -158,7 +156,7 @@ a {
 }
 
 .cont {
-  font-weight:400;
+        font-weight:400;
 	font-size:10px;
 	line-height: 1.1;
     margin-top: 4px;
@@ -170,11 +168,15 @@ r {color: #FF3A2A;}
 
 .my-table a {
   color: white;
-  font-weight: 300;
+  font-weight: 100;
   }
 
 .my-table a:hover {
   color: white;
+}
+
+el {
+  font-size: .8em;
 }
 
 .downloads h4 {
@@ -243,7 +245,7 @@ r {color: #FF3A2A;}
 }
 
 .partners td {
-  
+
   padding-bottom:20px;
-  
+
 }
