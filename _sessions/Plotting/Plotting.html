@@ -266,6 +266,77 @@ ggplot(data = sdg_props,
 
 ---
 
+# `geom_*()`
+
+.pull-left45[
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;geom_*()&lt;/mono&gt; functions define which geometric objects are used to illustrate the data.&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="m2"&gt;&lt;span&gt;A few examples &lt;mono&gt;geoms&lt;/mono&gt;:&lt;/span&gt;&lt;/li&gt;
+  &lt;ul class="level"&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_point()&lt;/mono&gt; | for points&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_line()&lt;/mono&gt; | for lines&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_smooth()&lt;/mono&gt; | for smooth curves&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_bar()&lt;/mono&gt; | for bars&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_boxplot()&lt;/mono&gt; | for box-plots &lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_violin()&lt;/mono&gt; | for violin-plots &lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+
+
+```r
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop)) +
+  
+  # Show as points
+  geom_point() 
+```
+
+
+]
+
+.pull-right45[
+
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+# `geom_*()`
+
+.pull-left45[
+
+&lt;ul&gt;
+  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;geom_*()&lt;/mono&gt; functions define which geometric objects are used to illustrate the data.&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;br&gt;
+
+```r
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop)) +
+  
+  # Show as lines
+  geom_line() 
+```
+
+
+]
+
+.pull-right45[
+
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
 # `aes()`
 
 
@@ -299,49 +370,7 @@ ggplot(data = sdg_props,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-
----
-
-# `geom_*()`
-
-.pull-left45[
-
-&lt;ul&gt;
-  &lt;li class="m1"&gt;&lt;span&gt;&lt;mono&gt;geom_*()&lt;/mono&gt; functions define which geometric objects are used to illustrate the data.&lt;/span&gt;&lt;/li&gt;
-  &lt;li class="m2"&gt;&lt;span&gt;A few examples &lt;mono&gt;geoms&lt;/mono&gt;:&lt;/span&gt;&lt;/li&gt;
-  &lt;ul class="level"&gt;
-    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_point()&lt;/mono&gt; | for points&lt;/span&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_line()&lt;/mono&gt; | for lines&lt;/span&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_smooth()&lt;/mono&gt; | for smooth curves&lt;/span&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_bar()&lt;/mono&gt; | for bars&lt;/span&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_boxplot()&lt;/mono&gt; | for box-plots &lt;/span&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;span&gt;&lt;mono&gt;geom_violin()&lt;/mono&gt; | for violin-plots &lt;/span&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/ul&gt;
-
-
-
-```r
-ggplot(data = sdg_props,
-       mapping = aes(x = year, 
-                     y = prop,
-                     col = sdg)) +
-  
-  # Show as points
-  geom_point() 
-```
-
-
-]
-
-.pull-right45[
-
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -372,10 +401,11 @@ ggplot(data = sdg_props,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
+
 
 ---
 
@@ -404,7 +434,7 @@ ggplot(data = sdg_props,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -438,7 +468,7 @@ ggplot(data = sdg_props,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -463,7 +493,7 @@ ggplot(data = sdg_props,
 
 .pull-right45[
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -553,7 +583,7 @@ ggplot(data = sdg_props,
 
 &lt;br&gt;&lt;br&gt;&lt;br&gt;
 
-&lt;img src="Plotting_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Plotting_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 

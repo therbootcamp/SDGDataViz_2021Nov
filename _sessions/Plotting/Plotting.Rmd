@@ -303,6 +303,89 @@ ggplot(data = sdg_props,
 
 ---
 
+# `geom_*()`
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span><mono>geom_*()</mono> functions define which geometric objects are used to illustrate the data.</span></li>
+  <li class="m2"><span>A few examples <mono>geoms</mono>:</span></li>
+  <ul class="level">
+    <li><span><mono>geom_point()</mono> | for points</span></li>
+    <li><span><mono>geom_line()</mono> | for lines</span></li>
+    <li><span><mono>geom_smooth()</mono> | for smooth curves</span></li>
+    <li><span><mono>geom_bar()</mono> | for bars</span></li>
+    <li><span><mono>geom_boxplot()</mono> | for box-plots </span></li>
+    <li><span><mono>geom_violin()</mono> | for violin-plots </span></li>
+  </ul>
+</ul>
+
+
+```{r, eval = FALSE, fig.width = 5, fig.height = 4}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop)) +
+  
+  # Show as points
+  geom_point() 
+```
+
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop)) +
+  
+  # Show as points
+  geom_point() 
+```
+
+
+]
+
+---
+
+# `geom_*()`
+
+.pull-left45[
+
+<ul>
+  <li class="m1"><span><mono>geom_*()</mono> functions define which geometric objects are used to illustrate the data.</span></li>
+</ul>
+
+<br>
+```{r, eval = F}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop)) +
+  
+  # Show as lines
+  geom_line() 
+```
+
+
+]
+
+.pull-right45[
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 4}
+ggplot(data = sdg_props,
+       mapping = aes(x = year, 
+                     y = prop)) +
+  
+  # Show as points
+  geom_line() 
+```
+
+
+]
+
+---
+
 # `aes()`
 
 
@@ -347,55 +430,6 @@ ggplot(data = sdg_props,
 
 ]
 
-
----
-
-# `geom_*()`
-
-.pull-left45[
-
-<ul>
-  <li class="m1"><span><mono>geom_*()</mono> functions define which geometric objects are used to illustrate the data.</span></li>
-  <li class="m2"><span>A few examples <mono>geoms</mono>:</span></li>
-  <ul class="level">
-    <li><span><mono>geom_point()</mono> | for points</span></li>
-    <li><span><mono>geom_line()</mono> | for lines</span></li>
-    <li><span><mono>geom_smooth()</mono> | for smooth curves</span></li>
-    <li><span><mono>geom_bar()</mono> | for bars</span></li>
-    <li><span><mono>geom_boxplot()</mono> | for box-plots </span></li>
-    <li><span><mono>geom_violin()</mono> | for violin-plots </span></li>
-  </ul>
-</ul>
-
-
-```{r, eval = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = sdg_props,
-       mapping = aes(x = year, 
-                     y = prop,
-                     col = sdg)) +
-  
-  # Show as points
-  geom_point() 
-```
-
-
-]
-
-.pull-right45[
-
-```{r, echo = FALSE, fig.width = 5, fig.height = 4}
-ggplot(data = sdg_props,
-       mapping = aes(x = year, 
-                     y = prop,
-                     col = sdg)) +
-  
-  # Show as points
-  geom_point() 
-```
-
-
-]
-
 ---
 
 # `geom_*()`
@@ -434,6 +468,7 @@ ggplot(data = sdg_props,
 
 
 ]
+
 
 ---
 

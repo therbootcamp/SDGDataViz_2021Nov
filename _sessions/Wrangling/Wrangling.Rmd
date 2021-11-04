@@ -229,7 +229,8 @@ options(tibble.width = 35, tibble.max_extra_cols = 5, tibble.print_max = 3,
 
 ```{r, message = F}
 # Read in sdg hackathon data
-project_sdgs <- read_csv("1_Data/sdg_hackathon_data.zip")
+project_sdgs <- 
+  read_csv("1_Data/sdg_hackathon_data.zip")
 
 project_sdgs
 
@@ -270,9 +271,10 @@ options(tibble.width = 35, tibble.max_extra_cols = 5, tibble.print_max = 3,
 
 ```{r, message = F}
 # Read in taxation
-basel <- read_csv("1_Data/sdg_hackathon_data.zip")
+project_sdgs <- 
+  read_csv("1_Data/sdg_hackathon_data.zip")
 
-basel
+project_sdgs
 
 ```
 
