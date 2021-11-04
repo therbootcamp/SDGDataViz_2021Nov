@@ -64,19 +64,19 @@ project_sdgs %>%
   summarize(n = XX)
 ```
 
-3. That worked. Now determine the number of projects per year by inserting a `group_by()` in between the `distinct()` and the `summarize()` functions with `year` as the grouping variable.
+3. That worked. Now determine the number of projects per year. To do this, first additionally include `year` in the `select` function. Secons, insert a `group_by()` in between the `distinct()` and the `summarize()` functions with `year` as the grouping variable.
 
 ```{r }
 # number of distinct projects per year
 project_sdgs %>%
   mutate(XX = year(XX)) %>% 
-  select(XX, XX) %>% 
+  select(XX, XX, XX) %>% 
   distinct() %>% 
   group_by(XX) %>% 
   summarize(n = XX)
 ```
 
-4. You have determined the number of projects for each year, but the print probably has only shown the first ten rows. You can tell R to print more rows using the `print()` function. This should show reveal there are not only very few projects that started prior to `2009`, but also that will start after `2021`. For analyses depending on year, it therefore may make sense to eliminate these cases. 
+4. You have determined the number of projects for each year, but the print might have only shown the first ten rows. You can tell R to print more rows using the `print()` function. This should show reveal there are not only very few projects that started prior to `2009`, but also that will start after `2021`. For analyses depending on year, it therefore may make sense to eliminate these cases. 
 
 ```{r }
 # number of distinct projects per year
