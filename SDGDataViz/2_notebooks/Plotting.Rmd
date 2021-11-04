@@ -25,7 +25,7 @@ project_sdgs <- read_csv('1_Data/sdg_hackathon_data.zip')
 
 ```{r}
 # determine relative proportion of sdg 1 and 6 
-sdg_props = project_sdgs %>% 
+sdg_props <- project_sdgs %>% 
   mutate(year = year(start_date)) %>% 
   group_by(system, sdg, year) %>% 
   summarize(n = n()) %>% 
@@ -94,7 +94,7 @@ sdg_props %>%
 
 ```{r}
 # determine relative proportion of sdg 1 and 6 
-sdg_props_systems = project_sdgs %>% 
+sdg_props_systems <- project_sdgs %>% 
   mutate(year = year(start_date)) %>% 
   group_by(system, sdg, year) %>% 
   summarize(n = n()) %>% 
