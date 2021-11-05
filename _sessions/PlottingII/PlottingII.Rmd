@@ -1036,4 +1036,4 @@ ggsave(filename = "my_plot.png",
 
 class: middle, center
 
-<h1><a href="therbootcamp.github.io/SDGDataViz_2021Nov/">Schedule</a></h1>
+<h1><a href="https://therbootcamp.github.io/SDGDataViz_2021Nov/">Schedule</a></h1>

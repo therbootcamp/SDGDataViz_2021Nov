@@ -207,13 +207,6 @@ Klicke auf <high>"....running..."</high> auf unserer Website!
 
 class: middle, center
 
-<h1><a href="https://www.dropbox.com/s/k82cg8p2sl1ojn7/DataViz4Good.zip?dl=1">Download<br>materials</a></h1>
-
-
----
-
-class: middle, center
-
 <h1><a href="https://correlaidswitzerland.github.io/DataViz4Good/">Schedule</a></h1>
 
 
