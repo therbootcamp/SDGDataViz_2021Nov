@@ -1,22 +1,22 @@
 ---
 title: "Welcome!"
 author: "Intro to data visualization with ggplot2<br>
+  <a href='https://therbootcamp.github.io'>
+    The R Bootcamp
   </a>
   <br>
-  </a>&#8239; 
-  </a>&#8239;
-  <a href='therbootcamp@gmail.com'>
-  </a>&#8239;
-  </a>"
-  <a href='https://correlaid.org/correlaid-x/switzerland/'>
-    The R Bootcamp
   <a href='https://therbootcamp.github.io/SDGDataViz_2021Nov/'>
     <i class='fas fa-clock' style='font-size:.9em;'></i>
-  <a href='https://therbootcamp.github.io/'>
+  </a>&#8239; 
+  <a href='https://therbootcamp.github.io'>
     <i class='fas fa-home' style='font-size:.9em;' ></i>
+  </a>&#8239;
+  <a href='therbootcamp@gmail.com'>
     <i class='fas fa-envelope' style='font-size: .9em;'></i>
-  <a href='https://www.linkedin.com/company/correlaidswiss/'>
+  </a>&#8239;
+  <a href='https://www.linkedin.com/company/27090302'>
     <i class='fab fa-linkedin' style='font-size: .9em;'></i>
+  </a>"
 date: "November 2021"
 output:
   xaringan::moon_reader:
